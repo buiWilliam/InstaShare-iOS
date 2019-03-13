@@ -12,6 +12,8 @@
 		20F98C8B2239580C00583096 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20F98C892239580C00583096 /* Main.storyboard */; };
 		20F98C8D2239580E00583096 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20F98C8C2239580E00583096 /* Assets.xcassets */; };
 		20F98C902239580E00583096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20F98C8E2239580E00583096 /* LaunchScreen.storyboard */; };
+		20F98C9822395A4B00583096 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F98C9722395A4B00583096 /* PhotoViewController.swift */; };
+		20F98C9A22395B0100583096 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F98C9922395B0100583096 /* ContactTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		20F98C8C2239580E00583096 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20F98C8F2239580E00583096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		20F98C912239580E00583096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20F98C9722395A4B00583096 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		20F98C9922395B0100583096 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				20F98C852239580C00583096 /* AppDelegate.swift */,
 				20F98C872239580C00583096 /* ViewController.swift */,
+				20F98C9722395A4B00583096 /* PhotoViewController.swift */,
+				20F98C9922395B0100583096 /* ContactTableViewController.swift */,
 				20F98C892239580C00583096 /* Main.storyboard */,
 				20F98C8C2239580E00583096 /* Assets.xcassets */,
 				20F98C8E2239580E00583096 /* LaunchScreen.storyboard */,
@@ -135,8 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20F98C9A22395B0100583096 /* ContactTableViewController.swift in Sources */,
 				20F98C882239580C00583096 /* ViewController.swift in Sources */,
 				20F98C862239580C00583096 /* AppDelegate.swift in Sources */,
+				20F98C9822395A4B00583096 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
