@@ -21,6 +21,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     
     @IBOutlet weak var switchCamera: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var contactButton: UIButton!
     
     var takePhoto = false
     var connection:AVCaptureConnection!
@@ -81,6 +82,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         self.previewLayer.frame = self.view.layer.frame
         view.bringSubviewToFront(cameraButton)
         view.bringSubviewToFront(switchCamera)
+        view.bringSubviewToFront(contactButton)
         captureSession.startRunning()
         
         let dataOutput = AVCaptureVideoDataOutput()
