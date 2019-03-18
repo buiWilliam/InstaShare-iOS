@@ -16,17 +16,17 @@ class ContactTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        navigationItem.title = "Contacts"
-        let backButton = UIBarButtonItem.init(title: "Back", style: .plain, target: nil, action: #selector (goBack(_:)))
-        navigationItem.rightBarButtonItem=backButton
+        /*navigationItem.title = "Contacts"
+        let backButton = UIBarButtonItem.init(title: "Done", style: .plain, target: nil, action: #selector(goBack))
+        navigationItem.rightBarButtonItem = backButton
         navigationController?.navigationBar.prefersLargeTitles = true
+         */
         fetchContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
     }
     
-    @objc func goBack(_ sender: Any) {
+    @IBAction func goBack(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-        
     }
     
     struct Info {
