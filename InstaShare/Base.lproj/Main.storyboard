@@ -28,31 +28,31 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ZF-V4-nN2">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ZF-V4-nN2">
                                         <rect key="frame" x="0.0" y="46.333333333333314" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="username"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hHa-NQ-pIC">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hHa-NQ-pIC">
                                         <rect key="frame" x="0.0" y="84.333333333333314" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="new-password"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sqO-Nb-vrK">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sqO-Nb-vrK">
                                         <rect key="frame" x="0.0" y="122.33333333333331" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="new-password"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-Mail" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ja-st-CUI">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-Mail" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ja-st-CUI">
                                         <rect key="frame" x="0.0" y="160.33333333333331" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-1T-ecz">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-1T-ecz">
                                         <rect key="frame" x="0.0" y="198.33333333333331" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -93,18 +93,19 @@
                         <viewLayoutGuide key="safeArea" id="MYV-Wd-qbf"/>
                     </view>
                     <connections>
-                        <outlet property="eMail" destination="3ja-st-CUI" id="HdS-RN-Fdm"/>
+                        <outlet property="eMail" destination="3ja-st-CUI" id="82N-yE-6DI"/>
                         <outlet property="firstName" destination="sp0-AJ-bSJ" id="s3k-sl-y5N"/>
                         <outlet property="lastName" destination="tj4-jM-ucL" id="o4A-mM-vV3"/>
                         <outlet property="password" destination="hHa-NQ-pIC" id="hCe-dD-EwV"/>
                         <outlet property="passwordConfirm" destination="sqO-Nb-vrK" id="2hc-Io-Cb9"/>
-                        <outlet property="phoneNumber" destination="S4e-1T-ecz" id="e5E-Mv-Flq"/>
+                        <outlet property="phoneNumber" destination="S4e-1T-ecz" id="Ty5-bP-rEb"/>
                         <outlet property="username" destination="4ZF-V4-nN2" id="a20-uc-Nu6"/>
+                        <segue destination="Sby-ri-tlZ" kind="presentation" identifier="signUpToLogIn" id="o5r-Ds-Q0F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BA1-kR-oIU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1329" y="-636"/>
+            <point key="canvasLocation" x="-1330" y="-679"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D9h-lM-YPu">
@@ -203,13 +204,13 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="csz-k6-NI1">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="csz-k6-NI1">
                                         <rect key="frame" x="0.0" y="46.333333333333314" width="138" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Le7-iz-ScA">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Le7-iz-ScA">
                                         <rect key="frame" x="0.0" y="84.333333333333314" width="138" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -257,11 +258,12 @@
                     <connections>
                         <outlet property="password" destination="Le7-iz-ScA" id="CM2-am-x7g"/>
                         <outlet property="username" destination="csz-k6-NI1" id="D3a-WD-NDw"/>
+                        <segue destination="UD1-gS-N55" kind="presentation" identifier="logInToHome" id="9eD-3q-HAD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hpG-1a-SHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1330.4000000000001" y="43.628185907046479"/>
+            <point key="canvasLocation" x="-1290" y="43"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Wvu-ti-Lkg">

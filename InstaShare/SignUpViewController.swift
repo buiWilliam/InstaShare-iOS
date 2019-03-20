@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class SignUpViewController: UIViewController {
 
@@ -18,6 +20,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     
+    let baseURL = "http://192.168.56.1:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,13 +46,6 @@ class SignUpViewController: UIViewController {
     @objc func doneButtonAction() {
         self.view.endEditing(true)
     }
-    struct param: Codable{
-        let username: String
-        let password: String
-        let email: String
-        let phoneNumber: String
-        let name: String
-    }
     
     @IBAction func submitButton(_ sender: Any){
         if (username.text == "" || password.text == "" || passwordConfirm.text == "" || eMail.text == "" || phoneNumber.text == "" || firstName.text == "" || lastName.text == ""){
@@ -60,20 +56,27 @@ class SignUpViewController: UIViewController {
         }
         else{
         let parameter = submit()
-        let encoder = JSONEncoder()
-        do{
-            let jsonData = try encoder.encode(parameter)
-            let jsonString = String(data: jsonData, encoding: .utf8)
-            print(jsonString!)
-        } catch _ as NSError{
-            
-        }
+            print(parameter)
+            Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseString{
+                response in
+                if response.result.isSuccess{
+                    let signup = response.result.value!
+                    print(signup)
+                    //if self.access != "" {
+                      //  self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
+                    //}
+                    //else{
+                    //    print("No regristered account")
+                    //}
+                } else{
+                    print("Error \(String(describing: response.result.error))")
+                }
+            }
         }
     }
     
-    func submit()->param{
-            let name = firstName.text! + " " + lastName.text!
-            let parameter = param(username: username.text!, password: password.text!, email: eMail.text!, phoneNumber: phoneNumber.text!, name: name)
+func submit()->[String:String]{
+    let parameter = ["user": self.username.text!, "password": self.password.text!, "email": eMail.text!, "phoneNumber": self.phoneNumber.text!, "first_name":firstName.text!,"last_name":lastName.text!]
             return parameter
     }
     

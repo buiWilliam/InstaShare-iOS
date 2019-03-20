@@ -8,13 +8,16 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let baseURL = "http://192.168.163.1:8000/api/token/"
+    let baseURL = "http://192.168.56.1:8000/api/token/"
+    var access: String = ""
+    var refresh: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,11 +60,19 @@ class LoginViewController: UIViewController {
     @IBAction func logIn(_ sender: Any) {
         if username.text != "" && password.text != ""{
             let parameters = ["username":username.text!,"password":password.text!]
-            
+            print(parameters)
             Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    
+                    let login : JSON = JSON(response.result.value!)
+                    print(login)
+                    self.saveToken(json: login)
+                    if self.access != "" {
+                        self.performSegue(withIdentifier: "logInToHome", sender: self)
+                    }
+                    else{
+                        print("No regristered account")
+                    }
                 } else{
                     print("Error \(String(describing: response.result.error))")
                 }
@@ -69,6 +80,11 @@ class LoginViewController: UIViewController {
         } else{
             print("Required textfield empty.")
         }
+    }
+    
+    func saveToken(json: JSON){
+        self.access = json["access"].string ?? ""
+        self.refresh = json["refresh"].string ?? ""
     }
     
     /*

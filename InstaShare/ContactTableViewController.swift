@@ -8,19 +8,17 @@
 
 import UIKit
 import Contacts
+import Alamofire
+import SwiftyJSON
 
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
+    let baseURL = "http://192.168.56.1:8000/api/uploadContacts/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        /*navigationItem.title = "Contacts"
-        let backButton = UIBarButtonItem.init(title: "Done", style: .plain, target: nil, action: #selector(goBack))
-        navigationItem.rightBarButtonItem = backButton
-        navigationController?.navigationBar.prefersLargeTitles = true
-         */
+        uploadContact()
         fetchContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
     }
@@ -29,9 +27,9 @@ class ContactTableViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    struct Info {
+    struct Info: Codable {
         var referencePic: Data?
-        var name: String
+        var name: String?
         var phoneNumber: String?
     }
     
@@ -108,7 +106,7 @@ class ContactTableViewController: UITableViewController {
         if (indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber : self.notReady[indexPath.row].phoneNumber) != nil{
             phonenumber = indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber! : self.notReady[indexPath.row].phoneNumber!
         }
-        cell.textLabel?.text = name + " " + phonenumber
+        cell.textLabel?.text = name! + " " + phonenumber
         if (indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic) != nil{
             let image = indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic
             cell.imageView?.image = UIImage(data: image!)
@@ -117,6 +115,31 @@ class ContactTableViewController: UITableViewController {
             cell.imageView?.image = nil
         }
         return cell
+    }
+    
+    func uploadContact(){
+        for info in ready{
+            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!]
+            let image = UIImage(data: info.referencePic!)
+            let imageData = image!.jpegData(compressionQuality: 1.0)
+            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseString{
+                response in
+                if response.result.isSuccess{
+                    let contact = response.result.value!
+                    print(contact)
+                    //if self.access != "" {
+                    //  self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
+                    //}
+                    //else{
+                    //    print("No regristered account")
+                    //}
+                } else{
+                    print("Error \(String(describing: response.result.error))")
+                }
+                Alamofire.upload(imageData!, to: self.baseURL)
+            }
+        }
+        
     }
     
 }

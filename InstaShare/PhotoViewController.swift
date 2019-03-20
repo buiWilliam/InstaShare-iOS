@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class PhotoViewController: UIViewController {
+    
+    let baseURL = "http://192.168.56.1:8000/api//"
 
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
@@ -25,7 +29,8 @@ class PhotoViewController: UIViewController {
         let imageData = imageView.image!.jpegData(compressionQuality: 1.0)
         let compressedimage = UIImage(data: imageData!)
         UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
-        
+        //let base64String = imageData!.base64EncodedString(options: .lineLength64Characters)
+        sendImage(image: imageData!)
         let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -35,6 +40,11 @@ class PhotoViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
         
     }
+    
+    func sendImage(image: Data){
+        Alamofire.upload(image, to: baseURL)
+    }
+    
     @IBAction func goBack(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         

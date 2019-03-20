@@ -92,7 +92,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         if captureSession.canAddOutput(dataOutput){
             captureSession.addOutput(dataOutput)
             let connection = dataOutput.connection(with: AVFoundation.AVMediaType.video)
-            connection?.videoOrientation = .landscapeLeft
+            connection?.videoOrientation = .landscapeRight
         }
         
         
