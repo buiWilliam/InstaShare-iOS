@@ -52,7 +52,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-1T-ecz">
+                                    <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="phone_number" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-1T-ecz" userLabel="phone_number">
                                         <rect key="frame" x="0.0" y="198.33333333333331" width="189" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -98,7 +98,7 @@
                         <outlet property="lastName" destination="tj4-jM-ucL" id="o4A-mM-vV3"/>
                         <outlet property="password" destination="hHa-NQ-pIC" id="hCe-dD-EwV"/>
                         <outlet property="passwordConfirm" destination="sqO-Nb-vrK" id="2hc-Io-Cb9"/>
-                        <outlet property="phoneNumber" destination="S4e-1T-ecz" id="Ty5-bP-rEb"/>
+                        <outlet property="phone_number" destination="S4e-1T-ecz" id="zZV-cr-nKi"/>
                         <outlet property="username" destination="4ZF-V4-nN2" id="a20-uc-Nu6"/>
                         <segue destination="Sby-ri-tlZ" kind="presentation" identifier="signUpToLogIn" id="o5r-Ds-Q0F"/>
                     </connections>

@@ -16,11 +16,26 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var passwordConfirm: UITextField!
     @IBOutlet weak var eMail: UITextField!
-    @IBOutlet weak var phoneNumber: UITextField!
+    @IBOutlet weak var phone_number: UITextField!
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     
     let baseURL = "http://192.168.56.1:8000/api/register/"
+
+    /*struct param: Codable {
+        enum CodingKeys: String,CodingKey{
+            case user
+            case password
+            case phone_number
+            case first_name
+            case last_name
+        }
+        var user: String
+        var password: String
+        var phoneNumber: String
+        var firstName: String
+        var lastName: String
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +51,7 @@ class SignUpViewController: UIViewController {
         self.password.inputAccessoryView = toolbar
         self.passwordConfirm.inputAccessoryView = toolbar
         self.eMail.inputAccessoryView = toolbar
-        self.phoneNumber.inputAccessoryView = toolbar
+        self.phone_number.inputAccessoryView = toolbar
         self.firstName.inputAccessoryView = toolbar
         self.lastName.inputAccessoryView = toolbar
         // Do any additional setup after loading the view.
@@ -48,7 +63,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func submitButton(_ sender: Any){
-        if (username.text == "" || password.text == "" || passwordConfirm.text == "" || eMail.text == "" || phoneNumber.text == "" || firstName.text == "" || lastName.text == ""){
+        if (username.text == "" || password.text == "" || passwordConfirm.text == "" || eMail.text == "" || phone_number.text == "" || firstName.text == "" || lastName.text == ""){
             print("Required text field is blank")
         }
         else if password.text != passwordConfirm.text{
@@ -57,14 +72,15 @@ class SignUpViewController: UIViewController {
         else{
         let parameter = submit()
             print(parameter)
+            //let json = JSON(parameter)
             Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseString{
                 response in
                 if response.result.isSuccess{
-                    let signup = response.result.value!
+                    let signup  = response.result.value!
                     print(signup)
-                    //if self.access != "" {
-                      //  self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
-                    //}
+                    if signup != "" {
+                      self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
+                    }
                     //else{
                     //    print("No regristered account")
                     //}
@@ -75,8 +91,10 @@ class SignUpViewController: UIViewController {
         }
     }
     
+    
+    
 func submit()->[String:String]{
-    let parameter = ["user": self.username.text!, "password": self.password.text!, "email": eMail.text!, "phoneNumber": self.phoneNumber.text!, "first_name":firstName.text!,"last_name":lastName.text!]
+    let parameter = ["username": self.username.text!, "password": self.password.text!, "email": eMail.text!, "phone_number": self.phone_number.text!, "first_name":firstName.text!,"last_name":lastName.text!]
             return parameter
     }
     
