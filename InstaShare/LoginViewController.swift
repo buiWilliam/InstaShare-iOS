@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     
     let baseURL = "http://10.110.41.120:8000/api/token/"
+    let testingURL = "http://192.168.56.1:8000/api/token/"
     var access: String = ""
     var refresh: String = ""
     
@@ -68,10 +69,10 @@ class LoginViewController: UIViewController {
         if username.text != "" && password.text != ""{
             let parameters = ["username":username.text!,"password":password.text!]
             print(parameters)
-            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON{
+            Alamofire.request(testingURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    let login : JSON = JSON(response.result.value!)
+                    let login  = JSON(response.result.value!)
                     print(login)
                     self.saveToken(json: login)
                     if self.access != "" {

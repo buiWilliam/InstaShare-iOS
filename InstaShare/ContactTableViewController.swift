@@ -33,6 +33,8 @@ class ContactTableViewController: UITableViewController {
         var referencePic: Data?
         var name: String?
         var phoneNumber: String?
+        var firstName: String?
+        var lastName: String?
     }
     
     var notReady = [Info]()
@@ -61,9 +63,9 @@ class ContactTableViewController: UITableViewController {
                     
                     try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointerIfYouWanttoStopEnumerating) in
                         if contact.imageDataAvailable{
-                            self.ready.append(Info(referencePic: contact.imageData, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue))
+                            self.ready.append(Info(referencePic: contact.imageData, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
                         } else{
-                            self.notReady.append(Info(referencePic: nil, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue))
+                            self.notReady.append(Info(referencePic: nil, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
                         }
                         
                     })
@@ -124,7 +126,8 @@ class ContactTableViewController: UITableViewController {
             let image = UIImage(data: info.referencePic!)
             let imageData = image!.jpegData(compressionQuality: 1.0)
             let imageString = imageData?.base64EncodedString()
-            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!,"base_64":imageString!]
+            let phoneNumber = trim(phonenumber: info.phoneNumber!)
+            let parameters = ["first_name":info.firstName!,"last_name":info.lastName!,"phone_number":phoneNumber,"base_64":imageString!]
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
             Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
@@ -136,7 +139,11 @@ class ContactTableViewController: UITableViewController {
                 }
             }
         }
-        
+    }
+    
+    func trim(phonenumber:String)->String{
+        let digit = phonenumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        return digit
     }
     
 }

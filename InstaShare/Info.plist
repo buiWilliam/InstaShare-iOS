@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Saving pictures</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Storing Pictures</string>
+	<string>Submitting Photos</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Identifying your friends</string>
 	<key>NSCameraUsageDescription</key>
