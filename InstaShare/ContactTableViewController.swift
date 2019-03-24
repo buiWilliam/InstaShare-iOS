@@ -124,7 +124,7 @@ class ContactTableViewController: UITableViewController {
             let image = UIImage(data: info.referencePic!)
             let imageData = image!.jpegData(compressionQuality: 1.0)
             let imageString = imageData?.base64EncodedString()
-            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!,"contact_photo":imageString!]
+            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!,"base_64":imageString!]
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
             Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
