@@ -126,7 +126,7 @@
         <!--Contacts-->
         <scene sceneID="mhh-ki-8th">
             <objects>
-                <tableViewController id="VtM-tq-Sax" customClass="ContactTableViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="contacts" id="VtM-tq-Sax" customClass="ContactTableViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2Z8-YH-f1s">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -268,7 +268,7 @@
         <!--View Controller-->
         <scene sceneID="Wvu-ti-Lkg">
             <objects>
-                <viewController id="UD1-gS-N55" customClass="ViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" id="UD1-gS-N55" customClass="ViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ydR-F9-hN4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,7 +294,7 @@
                                 <rect key="frame" x="30" y="20" width="62" height="30"/>
                                 <state key="normal" title="Contacts"/>
                                 <connections>
-                                    <segue destination="Kzi-cQ-AXi" kind="presentation" id="Yva-xR-jYF"/>
+                                    <action selector="contactAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="cmK-zW-4da"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -315,6 +315,7 @@
                         <outlet property="cameraButton" destination="7dM-Dd-Qbm" id="Ofa-Px-ntT"/>
                         <outlet property="contactsButton" destination="SQT-cg-G4c" id="rpj-tE-rk6"/>
                         <outlet property="switchCamera" destination="uRe-jg-IJO" id="E3H-M3-kRe"/>
+                        <segue destination="Kzi-cQ-AXi" kind="presentation" identifier="homeToContacts" id="pVK-yp-EcY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hO6-Vf-zMK" sceneMemberID="firstResponder"/>
@@ -367,6 +368,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="66" height="66"/>
+        <image name="Image" width="150" height="150"/>
     </resources>
 </document>

@@ -12,8 +12,8 @@ import SwiftyJSON
 
 class PhotoViewController: UIViewController {
     
-    let baseURL = "http://192.168.56.1:8000/api//"
-
+    let baseURL = "http://10.110.41.120:8000/api/demo64/"
+    var access = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
     
@@ -29,7 +29,6 @@ class PhotoViewController: UIViewController {
         let imageData = imageView.image!.jpegData(compressionQuality: 1.0)
         let compressedimage = UIImage(data: imageData!)
         UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
-        //let base64String = imageData!.base64EncodedString(options: .lineLength64Characters)
         sendImage(image: imageData!)
         let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
         
@@ -42,7 +41,27 @@ class PhotoViewController: UIViewController {
     }
     
     func sendImage(image: Data){
-        Alamofire.upload(image, to: baseURL)
+        let imageSting = image.base64EncodedString()
+        let parameter = ["base_64":imageSting]
+        print(parameter)
+        let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+        Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+            response in
+            if response.result.isSuccess{
+                let rekognize  = JSON(response.result.value!)
+                print(rekognize)
+                let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                
+                alert.addAction(okAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            } else{
+                print("Error \(String(describing: response.result.error))")
+            }
+            
+        }
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -50,15 +69,15 @@ class PhotoViewController: UIViewController {
         
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

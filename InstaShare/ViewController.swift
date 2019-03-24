@@ -13,6 +13,8 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     
     let captureSession = AVCaptureSession()
     
+    var access = ""
+    
     var previewLayer:CALayer!
     
     var frontCamera:AVCaptureDevice!
@@ -116,6 +118,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
                 
                 let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PhotoVC") as! PhotoViewController
                 photoVC.takenPhoto = image
+                photoVC.access=self.access
                 DispatchQueue.main.async {
                     self.present(photoVC,animated: true,completion: nil)
                     
@@ -137,7 +140,21 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         }
         return nil
     }
-
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "homeToContacts"{
+            let destination = segue.destination as! UINavigationController
+            let contacts = destination.viewControllers.first as! ContactTableViewController
+            contacts.access = self.access
+            
+        }
+    }
+    
+    
+    @IBAction func contactAction(_ sender: Any) {
+        self.performSegue(withIdentifier: "homeToContacts", sender: self)
+    }
+    
+    
 }
 

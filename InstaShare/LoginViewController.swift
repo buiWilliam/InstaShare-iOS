@@ -11,11 +11,11 @@ import Alamofire
 import SwiftyJSON
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let baseURL = "http://192.168.56.1:8000/api/token/"
+    let baseURL = "http://10.110.41.120:8000/api/token/"
     var access: String = ""
     var refresh: String = ""
     
@@ -57,6 +57,13 @@ class LoginViewController: UIViewController {
         }, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "logInToHome"{
+            let destination = segue.destination as! ViewController
+            destination.access = self.access
+        }
+    }
+    
     @IBAction func logIn(_ sender: Any) {
         if username.text != "" && password.text != ""{
             let parameters = ["username":username.text!,"password":password.text!]
@@ -68,6 +75,7 @@ class LoginViewController: UIViewController {
                     print(login)
                     self.saveToken(json: login)
                     if self.access != "" {
+                        
                         self.performSegue(withIdentifier: "logInToHome", sender: self)
                     }
                     else{
@@ -88,13 +96,13 @@ class LoginViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

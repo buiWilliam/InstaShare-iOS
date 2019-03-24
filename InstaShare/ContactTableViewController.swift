@@ -14,12 +14,14 @@ import SwiftyJSON
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
-    let baseURL = "http://192.168.56.1:8000/api/uploadContacts/"
+    let baseURL = "http://10.110.41.120:8000/api/uploadContact64/"
+    var access = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        uploadContact()
+        print("access token: \(access)")
         fetchContact()
+        uploadContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
     }
     
@@ -119,24 +121,19 @@ class ContactTableViewController: UITableViewController {
     
     func uploadContact(){
         for info in ready{
-            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!]
             let image = UIImage(data: info.referencePic!)
             let imageData = image!.jpegData(compressionQuality: 1.0)
-            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseString{
+            let imageString = imageData?.base64EncodedString()
+            let parameters = ["name":info.name!,"phone_number":info.phoneNumber!,"contact_photo":imageString!]
+            let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    let contact = response.result.value!
+                    let contact = JSON(response.result.value!)
                     print(contact)
-                    //if self.access != "" {
-                    //  self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
-                    //}
-                    //else{
-                    //    print("No regristered account")
-                    //}
                 } else{
                     print("Error \(String(describing: response.result.error))")
                 }
-                Alamofire.upload(imageData!, to: self.baseURL)
             }
         }
         
@@ -145,58 +142,58 @@ class ContactTableViewController: UITableViewController {
 }
 
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+/*
+ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+ 
+ // Configure the cell...
+ 
+ return cell
+ }
+ */
 
-        // Configure the cell...
+/*
+ // Override to support conditional editing of the table view.
+ override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+ // Return false if you do not want the specified item to be editable.
+ return true
+ }
+ */
 
-        return cell
-    }
-    */
+/*
+ // Override to support editing the table view.
+ override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+ if editingStyle == .delete {
+ // Delete the row from the data source
+ tableView.deleteRows(at: [indexPath], with: .fade)
+ } else if editingStyle == .insert {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
+/*
+ // Override to support rearranging the table view.
+ override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+ 
+ }
+ */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+/*
+ // Override to support conditional rearranging of the table view.
+ override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+ // Return false if you do not want the item to be re-orderable.
+ return true
+ }
+ */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ // Get the new view controller using segue.destination.
+ // Pass the selected object to the new view controller.
+ }
+ */
 

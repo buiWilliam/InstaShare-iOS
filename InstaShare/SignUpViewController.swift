@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class SignUpViewController: UIViewController {
-
+    
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var passwordConfirm: UITextField!
@@ -20,22 +20,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     
-    let baseURL = "http://192.168.56.1:8000/api/register/"
-
-    /*struct param: Codable {
-        enum CodingKeys: String,CodingKey{
-            case user
-            case password
-            case phone_number
-            case first_name
-            case last_name
-        }
-        var user: String
-        var password: String
-        var phoneNumber: String
-        var firstName: String
-        var lastName: String
-    }*/
+    let baseURL = "http://10.110.41.120:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,20 +55,16 @@ class SignUpViewController: UIViewController {
             print("Password does not match")
         }
         else{
-        let parameter = submit()
+            let parameter = submit()
             print(parameter)
-            //let json = JSON(parameter)
-            Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseString{
+            Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    let signup  = response.result.value!
+                    let signup  = JSON(response.result.value!)
                     print(signup)
-                    if signup != "" {
-                      self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
+                    if signup["id"] != "" {
+                        self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
                     }
-                    //else{
-                    //    print("No regristered account")
-                    //}
                 } else{
                     print("Error \(String(describing: response.result.error))")
                 }
@@ -93,9 +74,9 @@ class SignUpViewController: UIViewController {
     
     
     
-func submit()->[String:String]{
-    let parameter = ["username": self.username.text!, "password": self.password.text!, "email": eMail.text!, "phone_number": self.phone_number.text!, "first_name":firstName.text!,"last_name":lastName.text!]
-            return parameter
+    func submit()->[String:String]{
+        let parameter = ["username": self.username.text!, "password": self.password.text!, "email": eMail.text!, "phone_number": self.phone_number.text!, "first_name":firstName.text!,"last_name":lastName.text!]
+        return parameter
     }
     
     
@@ -116,15 +97,15 @@ func submit()->[String:String]{
         }, completion: nil)
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
