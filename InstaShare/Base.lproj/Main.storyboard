@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sby-ri-tlZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K9J-sm-GA8">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -148,7 +148,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Contacts" largeTitleDisplayMode="always" id="SVI-2Q-7vs">
                         <barButtonItem key="backBarButtonItem" title="Back" id="eP8-9Q-vYL"/>
-                        <barButtonItem key="rightBarButtonItem" title="Back" id="YLX-qu-Ne9">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="YLX-qu-Ne9">
                             <connections>
                                 <action selector="goBack:" destination="VtM-tq-Sax" id="3Zj-5r-MlT"/>
                             </connections>
@@ -297,6 +297,14 @@
                                     <action selector="contactAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="cmK-zW-4da"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gft-Pn-uDK">
+                                <rect key="frame" x="37" y="642" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Gallery"/>
+                                <connections>
+                                    <action selector="photoLibraryAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="wrS-Hc-UvB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -314,13 +322,84 @@
                     <connections>
                         <outlet property="cameraButton" destination="7dM-Dd-Qbm" id="Ofa-Px-ntT"/>
                         <outlet property="contactsButton" destination="SQT-cg-G4c" id="rpj-tE-rk6"/>
+                        <outlet property="galleryButton" destination="gft-Pn-uDK" id="ymD-bV-Hjl"/>
                         <outlet property="switchCamera" destination="uRe-jg-IJO" id="E3H-M3-kRe"/>
                         <segue destination="Kzi-cQ-AXi" kind="presentation" identifier="homeToContacts" id="pVK-yp-EcY"/>
+                        <segue destination="K9J-sm-GA8" kind="presentation" identifier="homeToGallery" id="xdU-Po-iMf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hO6-Vf-zMK" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-159" y="44"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7sg-gY-e1D">
+            <objects>
+                <navigationController id="K9J-sm-GA8" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yia-HO-eyo">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cL4-sU-fWc" kind="relationship" relationship="rootViewController" id="cb0-f2-sMb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PHW-UJ-ADG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-159" y="788"/>
+        </scene>
+        <!--Gallery View Controller-->
+        <scene sceneID="yVO-XJ-YLG">
+            <objects>
+                <viewController id="cL4-sU-fWc" customClass="GalleryViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="POx-b8-SKQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZnQ-dt-NeW">
+                                <rect key="frame" x="0.0" y="64" width="414" height="568"/>
+                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M82-1K-z6s">
+                                <rect key="frame" x="167" y="647" width="80" height="30"/>
+                                <state key="normal" title="Load Image"/>
+                                <connections>
+                                    <action selector="loadImage:" destination="cL4-sU-fWc" eventType="touchUpInside" id="4Sx-Kl-Ph3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bhZ-4b-BSd" firstAttribute="bottom" secondItem="M82-1K-z6s" secondAttribute="bottom" constant="15" id="Mzv-br-BCi"/>
+                            <constraint firstItem="M82-1K-z6s" firstAttribute="top" secondItem="ZnQ-dt-NeW" secondAttribute="bottom" constant="15" id="Srg-bv-r0w"/>
+                            <constraint firstItem="ZnQ-dt-NeW" firstAttribute="top" secondItem="bhZ-4b-BSd" secondAttribute="top" id="oYX-1i-8iA"/>
+                            <constraint firstItem="ZnQ-dt-NeW" firstAttribute="trailing" secondItem="bhZ-4b-BSd" secondAttribute="trailing" id="paJ-La-cag"/>
+                            <constraint firstItem="M82-1K-z6s" firstAttribute="centerX" secondItem="POx-b8-SKQ" secondAttribute="centerX" id="yeA-6W-vvF"/>
+                            <constraint firstItem="ZnQ-dt-NeW" firstAttribute="leading" secondItem="bhZ-4b-BSd" secondAttribute="leading" id="zQu-B4-pb8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bhZ-4b-BSd"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="TJ3-Bc-PcC">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="IXj-po-gkS">
+                            <connections>
+                                <action selector="goBack:" destination="cL4-sU-fWc" id="D9h-Rl-Hmr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Rekognize" id="o0v-Th-YEt">
+                            <connections>
+                                <action selector="rekognize:" destination="cL4-sU-fWc" id="pLh-6y-Hm8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="selectedImage" destination="ZnQ-dt-NeW" id="xSl-7l-FzG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="syF-fb-i2V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573.91304347826087" y="787.50000000000011"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="UTW-7L-4ln">
@@ -368,6 +447,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="150" height="150"/>
+        <image name="Image" width="66" height="66"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="tFK-QG-yWd"/>
+    </inferredMetricsTieBreakers>
 </document>

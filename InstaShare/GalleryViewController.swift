@@ -1,8 +1,8 @@
 //
-//  PhotoViewController.swift
+//  GalleryViewController.swift
 //  InstaShare
 //
-//  Created by William Bui on 3/13/19.
+//  Created by William Bui on 3/27/19.
 //  Copyright © 2019 William Bui. All rights reserved.
 //
 
@@ -11,41 +11,45 @@ import Alamofire
 import SwiftyJSON
 import MessageUI
 
-class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
+class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        
+    }
+    
     
     let baseURL = "http://10.110.41.120:8000/api/demo64/"
     var access = ""
-    var takenPhoto:UIImage?
-    @IBOutlet weak var imageView: UIImageView!
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-    }
-    
+    let imagePicker = UIImagePickerController()
+    @IBOutlet weak var selectedImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let availableImage = takenPhoto{
-            imageView.image=availableImage
-        }
+        
         // Do any additional setup after loading the view.
+        imagePicker.delegate = self
     }
     
-    @IBAction func saveImage(_ sender: Any) {
-        let imageData = imageView.image!.jpegData(compressionQuality: 1.0)
-        let compressedimage = UIImage(data: imageData!)
-        UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
-        sendImage(image: imageData!)
-        let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
+    @IBAction func loadImage(_ sender: Any) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
         
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        
-        alert.addAction(okAction)
-        
-        self.present(alert, animated: true, completion: nil)
-        
+        present(imagePicker, animated: true, completion: nil)
     }
     
-    func sendImage(image: Data){
-        let imageSting = image.base64EncodedString()
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        selectedImage.image = image
+        picker.dismiss(animated: true, completion: nil) }
+    
+    @IBAction func goBack(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+
+    @IBAction func rekognize(_ sender: Any) {
+        /*let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
+        let imageSting = imageData!.base64EncodedString()
         let parameter = ["base_64":imageSting]
         print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
@@ -65,12 +69,8 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
                 print("Error \(String(describing: response.result.error))")
             }
             
-        }
-    }
-    
-    @IBAction func goBack(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        
+        }*/
+        displayMessageInterface()
     }
     
     func displayMessageInterface() {
@@ -80,7 +80,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         // Configure the fields of the interface.
         composeVC.recipients = ["John Appleseed"]
         composeVC.body = "I love Swift!"
-        composeVC.addAttachmentData((takenPhoto?.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
+        composeVC.addAttachmentData((selectedImage.image!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
         
         // Present the view controller modally.
         if MFMessageComposeViewController.canSendText() {
@@ -89,16 +89,14 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
             print("Can't send messages.")
         }
     }
-    
-    
     /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2032FF14224BF23000BC40EE /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2032FF13224BF23000BC40EE /* GalleryViewController.swift */; };
 		20DAF3A2223DD40C0008B3BF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DAF3A1223DD40C0008B3BF /* LoginViewController.swift */; };
 		20DAF3A4223DD4280008B3BF /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DAF3A3223DD4280008B3BF /* SignUpViewController.swift */; };
 		20F98C862239580C00583096 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F98C852239580C00583096 /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2032FF13224BF23000BC40EE /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		20DAF3A1223DD40C0008B3BF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		20DAF3A3223DD4280008B3BF /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		20F98C822239580C00583096 /* InstaShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 				20F98C9922395B0100583096 /* ContactTableViewController.swift */,
 				20DAF3A1223DD40C0008B3BF /* LoginViewController.swift */,
 				20DAF3A3223DD4280008B3BF /* SignUpViewController.swift */,
+				2032FF13224BF23000BC40EE /* GalleryViewController.swift */,
 				20F98C892239580C00583096 /* Main.storyboard */,
 				20F98C8C2239580E00583096 /* Assets.xcassets */,
 				20F98C8E2239580E00583096 /* LaunchScreen.storyboard */,
@@ -89,7 +92,6 @@
 				D258F4A2DCA3D8C13FA6026C /* Pods-InstaShare.debug.xcconfig */,
 				91F5AAF07A0F0C43C064D618 /* Pods-InstaShare.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -224,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20DAF3A4223DD4280008B3BF /* SignUpViewController.swift in Sources */,
+				2032FF14224BF23000BC40EE /* GalleryViewController.swift in Sources */,
 				20F98C9A22395B0100583096 /* ContactTableViewController.swift in Sources */,
 				20F98C882239580C00583096 /* ViewController.swift in Sources */,
 				20F98C862239580C00583096 /* AppDelegate.swift in Sources */,

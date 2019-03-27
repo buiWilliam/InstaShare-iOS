@@ -24,6 +24,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     @IBOutlet weak var switchCamera: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var contactsButton: UIButton!
+    @IBOutlet weak var galleryButton: UIButton!
     
     var takePhoto = false
     var connection:AVCaptureConnection!
@@ -85,6 +86,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         view.bringSubviewToFront(cameraButton)
         view.bringSubviewToFront(switchCamera)
         view.bringSubviewToFront(contactsButton)
+        view.bringSubviewToFront(galleryButton)
         captureSession.startRunning()
         
         let dataOutput = AVCaptureVideoDataOutput()
@@ -148,8 +150,15 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
             contacts.access = self.access
             
         }
+        if segue.identifier == "homeToGallery"{
+            let destination = segue.destination as! UINavigationController
+            let gallary = destination.viewControllers.first as! GalleryViewController
+            gallary.access = self.access
+        }
     }
     
+    @IBAction func photoLibraryAction(_ sender: Any) {
+    }
     
     @IBAction func contactAction(_ sender: Any) {
         self.performSegue(withIdentifier: "homeToContacts", sender: self)
