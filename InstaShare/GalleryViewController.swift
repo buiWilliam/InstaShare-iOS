@@ -18,7 +18,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     
-    let baseURL = "http://10.110.41.120:8000/api/demo64/"
+    let baseURL = "http://10.110.32.66:8000/api/demo64/"
     var access = ""
     
     let imagePicker = UIImagePickerController()
@@ -48,10 +48,10 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     
 
     @IBAction func rekognize(_ sender: Any) {
-        /*let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
+        let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
         let imageSting = imageData!.base64EncodedString()
         let parameter = ["base_64":imageSting]
-        print(parameter)
+        //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
@@ -69,7 +69,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
                 print("Error \(String(describing: response.result.error))")
             }
             
-        }*/
+        }
         self.performSegue(withIdentifier: "galleryToPreview", sender: self)
     }
     

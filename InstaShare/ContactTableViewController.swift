@@ -14,12 +14,16 @@ import SwiftyJSON
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
-    let baseURL = "http://10.110.41.120:8000/api/uploadContact64/"
+    let baseURL = "http://10.110.32.66:8000/api/uploadContact64/"
     var access = ""
+    
+    let storage = UserDefaults.standard
+    var id : [String:String] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("access token: \(access)")
+        id = storage.dictionary(forKey: "uploadedContacts") as! [String:String]
         fetchContact()
         uploadContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -30,6 +34,7 @@ class ContactTableViewController: UITableViewController {
     }
     
     struct Info: Codable {
+        var identifier: String
         var referencePic: Data?
         var name: String?
         var phoneNumber: String?
@@ -54,7 +59,7 @@ class ContactTableViewController: UITableViewController {
             if granted {
                 print("Access granted")
                 
-                let keys = [CNContactGivenNameKey,CNContactFamilyNameKey,CNContactPhoneNumbersKey,CNContactImageDataKey,CNContactImageDataAvailableKey]
+                let keys = [CNContactGivenNameKey,CNContactFamilyNameKey,CNContactPhoneNumbersKey,CNContactImageDataKey,CNContactImageDataAvailableKey,CNContactIdentifierKey]
                 
                 let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
                 
@@ -63,9 +68,9 @@ class ContactTableViewController: UITableViewController {
                     
                     try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointerIfYouWanttoStopEnumerating) in
                         if contact.imageDataAvailable{
-                            self.ready.append(Info(referencePic: contact.imageData, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
+                            self.ready.append(Info(identifier: contact.identifier, referencePic: contact.imageData, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
                         } else{
-                            self.notReady.append(Info(referencePic: nil, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
+                            self.notReady.append(Info(identifier: contact.identifier, referencePic: nil, name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue,firstName: contact.givenName, lastName: contact.familyName))
                         }
                         
                     })
@@ -106,11 +111,12 @@ class ContactTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let name = indexPath.section == 0 ? self.ready[indexPath.row].name : self.notReady[indexPath.row].name
+        let identifier = indexPath.section == 0 ? self.ready[indexPath.row].identifier : self.notReady[indexPath.row].identifier
         var phonenumber = ""
         if (indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber : self.notReady[indexPath.row].phoneNumber) != nil{
             phonenumber = indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber! : self.notReady[indexPath.row].phoneNumber!
         }
-        cell.textLabel?.text = name! + " " + phonenumber
+        cell.textLabel?.text = name! + " " + phonenumber + " " + identifier
         if (indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic) != nil{
             let image = indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic
             cell.imageView?.image = UIImage(data: image!)
@@ -133,6 +139,10 @@ class ContactTableViewController: UITableViewController {
                 response in
                 if response.result.isSuccess{
                     let contact = JSON(response.result.value!)
+                    let idPair = [contact["id"].stringValue:info.identifier]
+                    
+                    self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                    self.storage.set(self.id, forKey: "uploadedContacts")
                     print(contact)
                 } else{
                     print("Error \(String(describing: response.result.error))")

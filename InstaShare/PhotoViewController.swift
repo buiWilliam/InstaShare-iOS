@@ -13,7 +13,7 @@ import MessageUI
 
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
-    let baseURL = "http://10.110.41.120:8000/api/demo64/"
+    let baseURL = "http://10.110.32.66:8000/api/demo64/"
     var access = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
@@ -33,7 +33,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let imageData = imageView.image!.jpegData(compressionQuality: 1.0)
         let compressedimage = UIImage(data: imageData!)
         UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
-        //sendImage(image: imageData!)
+        sendImage(image: imageData!)
         let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -41,26 +41,26 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         alert.addAction(okAction)
         
        // self.present(alert, animated: true, completion: nil)
-        self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
+        //self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
     }
     
     func sendImage(image: Data){
         let imageSting = image.base64EncodedString()
         let parameter = ["base_64":imageSting]
-        print(parameter)
+        //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
                 let rekognize  = JSON(response.result.value!)
                 print(rekognize)
-                let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
+                //let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
                 
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                //let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 
-                alert.addAction(okAction)
+                //alert.addAction(okAction)
                 
-                self.present(alert, animated: true, completion: nil)
+                //self.present(alert, animated: true, completion: nil)
             } else{
                 print("Error \(String(describing: response.result.error))")
             }

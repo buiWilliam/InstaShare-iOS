@@ -20,7 +20,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     
-    let baseURL = "http://10.110.41.120:8000/api/register/"
+    let baseURL = "http://10.110.32.66:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
