@@ -158,6 +158,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     }
     
     @IBAction func photoLibraryAction(_ sender: Any) {
+        self.performSegue(withIdentifier: "homeToGallery", sender: self)
     }
     
     @IBAction func contactAction(_ sender: Any) {

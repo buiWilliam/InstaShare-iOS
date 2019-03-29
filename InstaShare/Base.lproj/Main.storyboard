@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K9J-sm-GA8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UD1-gS-N55">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -297,10 +297,12 @@
                                     <action selector="contactAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="cmK-zW-4da"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gft-Pn-uDK">
-                                <rect key="frame" x="37" y="642" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Gallery"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gft-Pn-uDK">
+                                <rect key="frame" x="30" y="642" width="48" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Gallery">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="photoLibraryAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="wrS-Hc-UvB"/>
                                 </connections>
@@ -310,7 +312,9 @@
                         <constraints>
                             <constraint firstItem="SQT-cg-G4c" firstAttribute="top" secondItem="O9u-BK-42J" secondAttribute="top" id="6WN-b9-0Md"/>
                             <constraint firstItem="SQT-cg-G4c" firstAttribute="leading" secondItem="O9u-BK-42J" secondAttribute="leading" constant="30" id="9mM-7W-iCa"/>
+                            <constraint firstItem="O9u-BK-42J" firstAttribute="bottom" secondItem="gft-Pn-uDK" secondAttribute="bottom" constant="20" id="HMT-3a-22M"/>
                             <constraint firstItem="7dM-Dd-Qbm" firstAttribute="centerX" secondItem="ydR-F9-hN4" secondAttribute="centerX" id="M3d-aS-mGV"/>
+                            <constraint firstItem="gft-Pn-uDK" firstAttribute="leading" secondItem="O9u-BK-42J" secondAttribute="leading" constant="30" id="dOt-GV-yGd"/>
                             <constraint firstItem="uRe-jg-IJO" firstAttribute="top" secondItem="7dM-Dd-Qbm" secondAttribute="bottom" constant="10" id="peq-2e-OYG"/>
                             <constraint firstItem="O9u-BK-42J" firstAttribute="bottom" secondItem="uRe-jg-IJO" secondAttribute="bottom" constant="20" id="rLs-e9-kfg"/>
                             <constraint firstItem="uRe-jg-IJO" firstAttribute="centerX" secondItem="ydR-F9-hN4" secondAttribute="centerX" id="uis-IH-G2f"/>
@@ -326,6 +330,7 @@
                         <outlet property="switchCamera" destination="uRe-jg-IJO" id="E3H-M3-kRe"/>
                         <segue destination="Kzi-cQ-AXi" kind="presentation" identifier="homeToContacts" id="pVK-yp-EcY"/>
                         <segue destination="K9J-sm-GA8" kind="presentation" identifier="homeToGallery" id="xdU-Po-iMf"/>
+                        <segue destination="TcJ-Lz-RwM" kind="presentation" identifier="homeToCamera" id="XxF-iZ-rUO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hO6-Vf-zMK" sceneMemberID="firstResponder"/>
@@ -358,7 +363,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZnQ-dt-NeW">
                                 <rect key="frame" x="0.0" y="64" width="414" height="568"/>
-                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M82-1K-z6s">
                                 <rect key="frame" x="167" y="647" width="80" height="30"/>
@@ -395,11 +400,61 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="selectedImage" destination="ZnQ-dt-NeW" id="xSl-7l-FzG"/>
+                        <segue destination="Rdx-sQ-Qoo" kind="presentation" identifier="galleryToPreview" id="Y5c-Xx-Ghq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syF-fb-i2V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="573.91304347826087" y="787.50000000000011"/>
+        </scene>
+        <!--Preview View Controller-->
+        <scene sceneID="0op-h3-a0z">
+            <objects>
+                <viewController storyboardIdentifier="previewVC" id="Rdx-sQ-Qoo" customClass="previewViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ei2-FO-7PP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nlg-tA-X5N">
+                                <rect key="frame" x="80" y="67" width="240" height="208"/>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zon-h2-ILt">
+                                <rect key="frame" x="63" y="339" width="289" height="323"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Ekf-aE-r9h">
+                                        <rect key="frame" x="0.0" y="28" width="289" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ekf-aE-r9h" id="hdP-cM-yfl">
+                                            <rect key="frame" x="0.0" y="0.0" width="289" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohu-Oi-vsV">
+                                <rect key="frame" x="184" y="678" width="55" height="38"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ohu-Oi-vsV" firstAttribute="centerX" secondItem="ei2-FO-7PP" secondAttribute="centerX" id="J2e-rT-3RT"/>
+                            <constraint firstItem="ohu-Oi-vsV" firstAttribute="centerY" secondItem="ei2-FO-7PP" secondAttribute="centerY" id="St1-ek-2VL"/>
+                            <constraint firstItem="Zon-h2-ILt" firstAttribute="centerX" secondItem="ei2-FO-7PP" secondAttribute="centerX" id="XhZ-7x-na2"/>
+                            <constraint firstItem="nlg-tA-X5N" firstAttribute="centerX" secondItem="ei2-FO-7PP" secondAttribute="centerX" id="ZNB-4W-fnR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="S4d-7w-FGA"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="nlg-tA-X5N" id="oQt-aC-SzR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3n5-Kh-J9I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1376.8115942028987" y="442.66304347826093"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="UTW-7L-4ln">
@@ -439,6 +494,7 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="Io3-hw-tnY" id="i3o-Gc-LHa"/>
+                        <segue destination="Rdx-sQ-Qoo" kind="presentation" identifier="cameraToPreview" id="Bcq-V4-dKc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yux-kA-0y1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -447,9 +503,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="66" height="66"/>
+        <image name="Image" width="150" height="150"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="tFK-QG-yWd"/>
+        <segue reference="Y5c-Xx-Ghq"/>
     </inferredMetricsTieBreakers>
 </document>

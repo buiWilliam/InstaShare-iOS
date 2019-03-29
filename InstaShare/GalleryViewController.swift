@@ -70,7 +70,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             
         }*/
-        displayMessageInterface()
+        self.performSegue(withIdentifier: "galleryToPreview", sender: self)
     }
     
     func displayMessageInterface() {
@@ -78,8 +78,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
         composeVC.messageComposeDelegate = self
         
         // Configure the fields of the interface.
-        composeVC.recipients = ["John Appleseed"]
-        composeVC.body = "I love Swift!"
+        composeVC.recipients = ["2159419203","2676401186"]
         composeVC.addAttachmentData((selectedImage.image!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
         
         // Present the view controller modally.
@@ -89,6 +88,14 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
             print("Can't send messages.")
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "galleryToPreview"{
+            let destination = segue.destination as! previewViewController
+            destination.photo = selectedImage.image
+        }
+    }
+
     /*
     // MARK: - Navigation
 

@@ -33,15 +33,15 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let imageData = imageView.image!.jpegData(compressionQuality: 1.0)
         let compressedimage = UIImage(data: imageData!)
         UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
-        sendImage(image: imageData!)
+        //sendImage(image: imageData!)
         let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         
         alert.addAction(okAction)
         
-        self.present(alert, animated: true, completion: nil)
-        
+       // self.present(alert, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
     }
     
     func sendImage(image: Data){
@@ -87,6 +87,13 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
             self.present(composeVC, animated: true, completion: nil)
         } else {
             print("Can't send messages.")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "cameraToPreview"{
+            let destination = segue.destination as! previewViewController
+            destination.photo = imageView.image!
         }
     }
     
