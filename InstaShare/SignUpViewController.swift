@@ -21,6 +21,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var lastName: UITextField!
     
     let baseURL = "http://10.110.32.66:8000/api/register/"
+    let test = "http://10.108.93.47:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,7 @@ class SignUpViewController: UIViewController {
         else{
             let parameter = submit()
             print(parameter)
-            Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseJSON{
+            Alamofire.request(test, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil).responseJSON{
                 response in
                 if response.result.isSuccess{
                     let signup  = JSON(response.result.value!)

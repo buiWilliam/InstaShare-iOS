@@ -330,7 +330,7 @@
                         <outlet property="switchCamera" destination="uRe-jg-IJO" id="E3H-M3-kRe"/>
                         <segue destination="Kzi-cQ-AXi" kind="presentation" identifier="homeToContacts" id="pVK-yp-EcY"/>
                         <segue destination="K9J-sm-GA8" kind="presentation" identifier="homeToGallery" id="xdU-Po-iMf"/>
-                        <segue destination="s64-2j-Rdm" kind="presentation" id="bN1-UP-wXP"/>
+                        <segue destination="s64-2j-Rdm" kind="presentation" identifier="homeToCamera" id="bN1-UP-wXP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hO6-Vf-zMK" sceneMemberID="firstResponder"/>
@@ -340,11 +340,15 @@
         <!--Navigation Controller-->
         <scene sceneID="7sg-gY-e1D">
             <objects>
-                <navigationController id="K9J-sm-GA8" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="K9J-sm-GA8" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yia-HO-eyo">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nJF-sc-qc5">
+                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="cL4-sU-fWc" kind="relationship" relationship="rootViewController" id="cb0-f2-sMb"/>
                     </connections>
@@ -369,9 +373,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ZnQ-dt-NeW" firstAttribute="trailing" secondItem="bhZ-4b-BSd" secondAttribute="trailing" id="2cb-rc-LhH"/>
-                            <constraint firstItem="ZnQ-dt-NeW" firstAttribute="bottom" secondItem="bhZ-4b-BSd" secondAttribute="bottom" id="FGi-ym-bjv"/>
                             <constraint firstItem="ZnQ-dt-NeW" firstAttribute="leading" secondItem="bhZ-4b-BSd" secondAttribute="leading" id="K38-Fb-XVm"/>
                             <constraint firstItem="ZnQ-dt-NeW" firstAttribute="top" secondItem="bhZ-4b-BSd" secondAttribute="top" id="bXt-s9-En9"/>
+                            <constraint firstItem="ZnQ-dt-NeW" firstAttribute="bottom" secondItem="bhZ-4b-BSd" secondAttribute="bottom" id="ujK-7m-yXy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bhZ-4b-BSd"/>
                     </view>
@@ -412,6 +416,9 @@
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Jtl-Vy-VuY">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="TcJ-Lz-RwM" kind="relationship" relationship="rootViewController" id="LDP-1p-kzP"/>
                     </connections>
@@ -472,7 +479,7 @@
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="42.391304347826093"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Preview Table View Controller-->
         <scene sceneID="gd5-jv-6gr">
             <objects>
                 <tableViewController storyboardIdentifier="preview" id="gVP-um-Lbz" customClass="previewTableViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
@@ -480,7 +487,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rjf-kr-5oz">
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rjf-kr-5oz">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -506,7 +513,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="3YB-hc-suu"/>
+                    <navigationItem key="navigationItem" id="3YB-hc-suu"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="rjf-kr-5oz" id="wC2-i2-Jdh"/>
@@ -519,11 +526,15 @@
         <!--Navigation Controller-->
         <scene sceneID="Hrg-pt-md9">
             <objects>
-                <navigationController id="o1A-AF-84g" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="o1A-AF-84g" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XWn-Gq-Ozn">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pav-WQ-Bt4">
+                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="gVP-um-Lbz" kind="relationship" relationship="rootViewController" id="LjL-Tu-9QZ"/>
                     </connections>
@@ -534,7 +545,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="66" height="66"/>
+        <image name="Image" width="150" height="150"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="AhO-Wf-fl4"/>

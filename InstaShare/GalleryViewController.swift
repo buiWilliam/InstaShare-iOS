@@ -19,10 +19,12 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     let baseURL = "http://10.110.32.66:8000/api/demo64/"
+    let test = "http://10.108.93.47:8000/api/demo64/"
     var access = ""
     var rekognize: JSON?
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var selectedImage: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +34,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func loadImage(_ sender: Any) {
         imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = .savedPhotosAlbum
         
         present(imagePicker, animated: true, completion: nil)
     }
@@ -53,17 +55,16 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
         let parameter = ["base_64":imageSting]
         //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-        Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+        Alamofire.request(test, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
                 self.rekognize  = JSON(response.result.value!)
-                
+                self.performSegue(withIdentifier: "galleryToPreview", sender: self)
             } else{
                 print("Error \(String(describing: response.result.error))")
             }
             
         }
-        self.performSegue(withIdentifier: "galleryToPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

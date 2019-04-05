@@ -25,6 +25,7 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = photo
+        print(rekognize!)
         for (_,subJson):(String, JSON) in rekognize! {
             let name = subJson["name"].stringValue
             let phone_number = subJson["phone_number"].stringValue
@@ -43,7 +44,7 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,12 +59,28 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         phonenumber = self.list[indexPath.row].phone_number
 
         cell.textLabel?.text = name + " " + phonenumber
-
+        
         return cell
     }
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch (result)
+        {
+        case MessageComposeResult.cancelled:
+            NSLog("Mail cancelled");
+            break;
+        case MessageComposeResult.sent:
+            NSLog("Mail sent");
+            break;
+        case MessageComposeResult.failed:
+            NSLog("Mail sent failure");
+            break;
+        default:
+            break;
+        }
         
+        // Close the Mail Interface
+        controller.dismiss(animated: true, completion: nil)
     }
     
 
@@ -75,10 +92,14 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
     func displayMessageInterface() {
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = self
-        
+        composeVC.recipients = []
         // Configure the fields of the interface.
-        composeVC.recipients = ["2159419203","2676401186"]
-        composeVC.addAttachmentData((imageView.image!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
+        for contacts in list{
+            print("phone number: \(contacts.phone_number)")
+            composeVC.recipients?.append(contacts.phone_number)
+        }
+        composeVC.body = "Sent from InstaShare"
+        composeVC.addAttachmentData((photo!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
         
         // Present the view controller modally.
         if MFMessageComposeViewController.canSendText() {

@@ -14,6 +14,7 @@ import MessageUI
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
     let baseURL = "http://10.110.32.66:8000/api/demo64/"
+    let test = "http://10.108.93.47:8000/api/demo64/"
     var access = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
@@ -34,14 +35,6 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let compressedimage = UIImage(data: imageData!)
         UIImageWriteToSavedPhotosAlbum(compressedimage!, nil, nil, nil)
         sendImage(image: imageData!)
-        let alert = UIAlertController(title: "Saved", message: "Image sent for recognition", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        
-        alert.addAction(okAction)
-        
-       // self.present(alert, animated: true, completion: nil)
-        //self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
     }
     
     func sendImage(image: Data){
@@ -49,18 +42,11 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let parameter = ["base_64":imageSting]
         //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-        Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+        Alamofire.request(test, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
                 self.rekognize  = JSON(response.result.value!)
-                print(self.rekognize!)
-                //let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
-                
-                //let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                
-                //alert.addAction(okAction)
-                
-                //self.present(alert, animated: true, completion: nil)
+                self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
             } else{
                 print("Error \(String(describing: response.result.error))")
             }
@@ -76,8 +62,9 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "cameraToPreview"{
-            let destination = segue.destination as! previewTableViewController
-            destination.photo = imageView.image!
+            let nav = segue.destination as! UINavigationController
+            let destination = nav.viewControllers.first as! previewTableViewController
+            destination.photo = imageView.image
             destination.rekognize = rekognize
         }
     }

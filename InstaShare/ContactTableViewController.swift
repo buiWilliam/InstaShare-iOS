@@ -15,6 +15,7 @@ class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
     let baseURL = "http://10.110.32.66:8000/api/uploadContact64/"
+    let test = "http://10.108.93.47:8000/api/uploadContact64/"
     var access = ""
     
     let storage = UserDefaults.standard
@@ -23,7 +24,7 @@ class ContactTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("access token: \(access)")
-        id = storage.dictionary(forKey: "uploadedContacts") as! [String:String]
+//        id = storage.dictionary(forKey: "uploadedContacts") as! [String:String]
         fetchContact()
         uploadContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -133,12 +134,12 @@ class ContactTableViewController: UITableViewController {
             let imageData = image!.jpegData(compressionQuality: 1.0)
             let imageString = imageData?.base64EncodedString()
             let phoneNumber = trim(phonenumber: info.phoneNumber!)
-            let parameters = ["first_name":info.firstName!,"last_name":info.lastName!,"phone_number":phoneNumber,"base_64":imageString!]
+            let parameters = ["name":info.name!,"phone_number":phoneNumber,"base_64":imageString!]
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+            Alamofire.request(test, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    let contact = JSON(response.result.value!)
+                    let contact = (response.result.value!)
                     //let idPair = [contact["id"].stringValue:info.identifier]
                     
                     //self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
