@@ -14,6 +14,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     let captureSession = AVCaptureSession()
     
     var access = ""
+    var takenPhoto: UIImage?
     
     var previewLayer:CALayer!
     
@@ -118,13 +119,9 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
             takePhoto = false
             if let image = self.getImageFromBuffer(buffer: sampleBuffer){
                 
-                let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PhotoVC") as! PhotoViewController
-                photoVC.takenPhoto = image
-                photoVC.access=self.access
-                DispatchQueue.main.async {
-                    self.present(photoVC,animated: true,completion: nil)
-                    
-                }
+                takenPhoto = image
+                self.performSegue(withIdentifier: "homeToCamera", sender: self)
+                
             }
         }
     }
@@ -154,6 +151,13 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
             let destination = segue.destination as! UINavigationController
             let gallary = destination.viewControllers.first as! GalleryViewController
             gallary.access = self.access
+        }
+        
+        if segue.identifier == "homeToCamera"{
+            let destination = segue.destination as! UINavigationController
+            let camera = destination.viewControllers.first as! PhotoViewController
+            camera.takenPhoto = takenPhoto
+            camera.access = access
         }
     }
     

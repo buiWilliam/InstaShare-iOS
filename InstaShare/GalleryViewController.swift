@@ -20,7 +20,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     let baseURL = "http://10.110.32.66:8000/api/demo64/"
     var access = ""
-    
+    var rekognize: JSON?
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var selectedImage: UIImageView!
     override func viewDidLoad() {
@@ -56,15 +56,8 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
-                let rekognize  = JSON(response.result.value!)
-                print(rekognize)
-                let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
+                self.rekognize  = JSON(response.result.value!)
                 
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                
-                alert.addAction(okAction)
-                
-                self.present(alert, animated: true, completion: nil)
             } else{
                 print("Error \(String(describing: response.result.error))")
             }
@@ -73,26 +66,14 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.performSegue(withIdentifier: "galleryToPreview", sender: self)
     }
     
-    func displayMessageInterface() {
-        let composeVC = MFMessageComposeViewController()
-        composeVC.messageComposeDelegate = self
-        
-        // Configure the fields of the interface.
-        composeVC.recipients = ["2159419203","2676401186"]
-        composeVC.addAttachmentData((selectedImage.image!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
-        
-        // Present the view controller modally.
-        if MFMessageComposeViewController.canSendText() {
-            self.present(composeVC, animated: true, completion: nil)
-        } else {
-            print("Can't send messages.")
-        }
-    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "galleryToPreview"{
-            let destination = segue.destination as! previewViewController
+            let nav = segue.destination as! UINavigationController
+            let destination = nav.viewControllers.first as! previewTableViewController
             destination.photo = selectedImage.image
+            destination.rekognize = rekognize
+            
         }
     }
 

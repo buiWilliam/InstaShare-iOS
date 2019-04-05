@@ -17,7 +17,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     var access = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
-    
+    var rekognize: JSON?
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
     }
     
@@ -52,8 +52,8 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
-                let rekognize  = JSON(response.result.value!)
-                print(rekognize)
+                self.rekognize  = JSON(response.result.value!)
+                print(self.rekognize!)
                 //let alert = UIAlertController(title: "Found", message: "\(rekognize["first_name"]) \(rekognize["last_name"])", preferredStyle: .alert)
                 
                 //let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -73,27 +73,12 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         
     }
     
-    func displayMessageInterface() {
-        let composeVC = MFMessageComposeViewController()
-        composeVC.messageComposeDelegate = self
-        
-        // Configure the fields of the interface.
-        composeVC.recipients = ["John Appleseed"]
-        composeVC.body = "I love Swift!"
-        composeVC.addAttachmentData((takenPhoto?.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
-        
-        // Present the view controller modally.
-        if MFMessageComposeViewController.canSendText() {
-            self.present(composeVC, animated: true, completion: nil)
-        } else {
-            print("Can't send messages.")
-        }
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "cameraToPreview"{
-            let destination = segue.destination as! previewViewController
+            let destination = segue.destination as! previewTableViewController
             destination.photo = imageView.image!
+            destination.rekognize = rekognize
         }
     }
     

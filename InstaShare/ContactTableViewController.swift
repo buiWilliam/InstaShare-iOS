@@ -139,10 +139,10 @@ class ContactTableViewController: UITableViewController {
                 response in
                 if response.result.isSuccess{
                     let contact = JSON(response.result.value!)
-                    let idPair = [contact["id"].stringValue:info.identifier]
+                    //let idPair = [contact["id"].stringValue:info.identifier]
                     
-                    self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
-                    self.storage.set(self.id, forKey: "uploadedContacts")
+                    //self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                    //self.storage.set(self.id, forKey: "uploadedContacts")
                     print(contact)
                 } else{
                     print("Error \(String(describing: response.result.error))")
