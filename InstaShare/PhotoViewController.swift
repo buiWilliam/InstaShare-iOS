@@ -13,7 +13,7 @@ import MessageUI
 
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
-    let baseURL = "http://10.110.32.66:8000/api/demo64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/demo64/"
     let test = "http://10.108.93.47:8000/api/demo64/"
     var access = ""
     var takenPhoto:UIImage?
@@ -42,7 +42,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let parameter = ["base_64":imageSting]
         //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-        Alamofire.request(test, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+        Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
                 self.rekognize  = JSON(response.result.value!)

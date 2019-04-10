@@ -14,7 +14,7 @@ import SwiftyJSON
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
-    let baseURL = "http://10.110.32.66:8000/api/uploadContact64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContact64/"
     let test = "http://10.108.93.47:8000/api/uploadContact64/"
     var access = ""
     
@@ -136,7 +136,7 @@ class ContactTableViewController: UITableViewController {
             let phoneNumber = trim(phonenumber: info.phoneNumber!)
             let parameters = ["name":info.name!,"phone_number":phoneNumber,"base_64":imageString!]
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-            Alamofire.request(test, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
                 if response.result.isSuccess{
                     let contact = (response.result.value!)

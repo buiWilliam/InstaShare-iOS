@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let baseURL = "http://10.110.32.66:8000/api/token/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/token/"
     let testingURL = "http://10.108.93.47:8000/api/token/"
     var access: String = ""
     var refresh: String = ""
@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         if username.text != "" && password.text != ""{
             let parameters = ["username":username.text!,"password":password.text!]
             print(parameters)
-            Alamofire.request(testingURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON{
+            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON{
                 response in
                 if response.result.isSuccess{
                     let login  = JSON(response.result.value!)
