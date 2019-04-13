@@ -15,8 +15,36 @@ import Photos
 
 class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegate, UINavigationControllerDelegate {
     
+    var imgArray = [UIImage]()
+    
     func assetsPicker(controller: AssetsPickerViewController, selected assets: [PHAsset]) {
-
+        i = 0
+        self.imgArray = [UIImage]()
+        let imgManager = PHImageManager.default()
+        let request = PHImageRequestOptions()
+        request.isSynchronous = true
+        request.deliveryMode = .highQualityFormat
+        for asset in assets{
+            imgManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: request, resultHandler: {
+                image, error in
+                self.imgArray.append(image!)
+            })
+        }
+        selectedImage.image = imgArray[0]
+        current.text = "1"
+        total.text = "\(imgArray.count)"
+        if i == imgArray.count - 1{
+            nextButton.isEnabled = false
+        }
+        else{
+            nextButton.isEnabled = true
+        }
+        if i == 0{
+            prevButton.isEnabled = false
+        }
+        else{
+            prevButton.isEnabled = true
+        }
     }
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/demo64/"
@@ -25,11 +53,40 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     var rekognize: JSON?
     let imagePicker = UIImagePickerController()
     let picker = AssetsPickerViewController()
+    @IBOutlet weak var current: UILabel!
+    @IBOutlet weak var total: UILabel!
+    var i = 0
+    @IBOutlet weak var nextButton: UIButton!
+    
+    
+    @IBAction func nextAction(_ sender: Any) {
+        i=i+1
+        selectedImage.image = imgArray[i]
+        current.text = "\(i+1)"
+        prevButton.isEnabled = true
+        if i == imgArray.count - 1{
+            nextButton.isEnabled = false
+        }
+    }
+    
+    @IBOutlet weak var prevButton: UIButton!
+    @IBAction func prevAction(_ sender: Any) {
+        i=i-1
+        selectedImage.image = imgArray[i]
+        current.text = "\(i+1)"
+        nextButton.isEnabled = true
+        if i == 0{
+            prevButton.isEnabled = false
+        }
+    }
     @IBOutlet weak var selectedImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        prevButton.isEnabled = false
+        nextButton.isEnabled = false
+        current.text = "0"
+        total.text = "0"
         // Do any additional setup after loading the view.
         //imagePicker.delegate = self
         picker.pickerDelegate = self
@@ -54,9 +111,15 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     
 
     @IBAction func rekognize(_ sender: Any) {
-        let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
-        let imageSting = imageData!.base64EncodedString()
-        let parameter = ["base_64":imageSting]
+        //let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
+        //let imageSting = imageData!.base64EncodedString()
+        //let parameter = ["base_64":imageSting]
+        var parameter = ["group_photos" : [String]()]
+        for image in imgArray{
+            let imageData = image.jpegData(compressionQuality: 1.0)
+            let imageSting = imageData!.base64EncodedString()
+            parameter["group_photos"]!.append(imageSting)
+        }
         //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{

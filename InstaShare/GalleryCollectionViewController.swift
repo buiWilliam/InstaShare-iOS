@@ -28,14 +28,20 @@ class GalleryCollectionViewController: UICollectionViewController,UICollectionVi
     
 
     var imgArray = [UIImage]()
+    var thumbNailArray = [UIImage]()
     
     func assetsPicker(controller: AssetsPickerViewController, selected assets: [PHAsset]) {
         let imgManager = PHImageManager.default()
         let request = PHImageRequestOptions()
         request.isSynchronous = true
         request.deliveryMode = .highQualityFormat
+        
         for asset in assets{
-            imgManager.requestImage(for: asset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: request, resultHandler: {
+            imgManager.requestImage(for: asset, targetSize: CGSize(width: self.view.frame.width-40, height: self.view.frame.width-40), contentMode: .aspectFill, options: request, resultHandler: {
+                image, error in
+                self.thumbNailArray.append(image!)
+            })
+            imgManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: request, resultHandler: {
                 image, error in
                 self.imgArray.append(image!)
             })
@@ -135,7 +141,7 @@ class GalleryCollectionViewController: UICollectionViewController,UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! GalleryCollectionViewCell
     
         // Configure the cell
-        cell.imgView.image = imgArray[indexPath.row]
+        cell.imgView.image = thumbNailArray[indexPath.row]
         return cell
     }
 
@@ -171,7 +177,7 @@ class GalleryCollectionViewController: UICollectionViewController,UICollectionVi
     */
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
+        let width = collectionView.frame.width - 40
         return CGSize(width: width, height: width)
     }
     
