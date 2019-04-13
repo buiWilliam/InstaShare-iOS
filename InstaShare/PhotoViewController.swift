@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import MessageUI
+import Contacts
 
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
@@ -57,6 +58,41 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     @IBAction func goBack(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         
+    }
+    @IBAction func addContact(_ sender: Any) {
+        let newContact = CNMutableContact()
+        var firstName = UITextField()
+        var lastName = UITextField()
+        var phoneNumber = UITextField()
+        let alert = UIAlertController(title: "Add New Contact", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Contact", style: .default) { (action) in
+            newContact.givenName = firstName.text!
+            newContact.familyName = lastName.text!
+            newContact.phoneNumbers = [CNLabeledValue(label: CNLabelPhoneNumberMain, value: CNPhoneNumber(stringValue: phoneNumber.text!))]
+            newContact.imageData = self.takenPhoto?.jpegData(compressionQuality: 1)
+            do {
+                let newContactRequest = CNSaveRequest()
+                newContactRequest.add(newContact, toContainerWithIdentifier: nil)
+                try CNContactStore().execute(newContactRequest)
+                // ... if control flow gets here, save operation succeed.
+            } catch {
+                // ... deal with error
+            }
+        }
+        alert.addAction(action)
+        alert.addTextField { (alertFirstName) in
+            alertFirstName.placeholder = "First Name"
+            firstName = alertFirstName
+        }
+        alert.addTextField { (alertLastName) in
+            alertLastName.placeholder = "Last Name"
+            lastName = alertLastName
+        }
+        alert.addTextField { (alertPhoneNumber) in
+            alertPhoneNumber.placeholder = "Phone Number"
+            phoneNumber = alertPhoneNumber
+        }
+        present(alert, animated: true, completion: nil)
     }
     
     
