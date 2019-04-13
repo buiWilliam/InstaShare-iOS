@@ -17,6 +17,7 @@ class ContactTableViewController: UITableViewController {
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContact64/"
     let test = "http://10.108.93.47:8000/api/uploadContact64/"
     var access = ""
+    var username = ""
     
     let storage = UserDefaults.standard
     var id : [String:String] = [:]
@@ -24,7 +25,9 @@ class ContactTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("access token: \(access)")
-//        id = storage.dictionary(forKey: "uploadedContacts") as! [String:String]
+        if storage.dictionary(forKey: username)?.isEmpty == false{
+        id = storage.dictionary(forKey: username) as! [String:String]
+        }
         fetchContact()
         uploadContact()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -136,17 +139,30 @@ class ContactTableViewController: UITableViewController {
             let phoneNumber = trim(phonenumber: info.phoneNumber!)
             let parameters = ["name":info.name!,"phone_number":phoneNumber,"base_64":imageString!]
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+            if id[info.identifier]==nil{
             Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
                 if response.result.isSuccess{
-                    let contact = (response.result.value!)
-                    //let idPair = [contact["id"].stringValue:info.identifier]
-                    
-                    //self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
-                    //self.storage.set(self.id, forKey: "uploadedContacts")
+                    let contact = JSON(response.result.value!)
+                    if contact["id"].stringValue != ""{
+                    let idPair = [info.identifier:contact["id"].stringValue]
+                    self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                    self.storage.set(self.id, forKey: self.username)
+                    }
                     print(contact)
                 } else{
                     print("Error \(String(describing: response.result.error))")
+                }
+                }
+            }
+            else{
+                let putUrl = "\(baseURL)/\(id[info.identifier]!)/"
+                Alamofire.request(putUrl, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseString{
+                        response in
+                    if response.result.isSuccess {
+                        let contact = JSON(response.result.value!)
+                        print(contact)
+                    }
                 }
             }
         }

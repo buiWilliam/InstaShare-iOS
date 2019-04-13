@@ -20,11 +20,13 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     
+    
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/register/"
     let test = "http://10.108.93.47:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //init toolbar
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
         //create left side empty space so that done button set on right side
@@ -88,7 +90,7 @@ class SignUpViewController: UIViewController {
     
     @objc func keyboardShow(){
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.view.frame = CGRect(x:0,y:-250,width: self.view.frame.width,height: self.view.frame.height)
+            self.view.frame = CGRect(x:0,y:(self.view.frame.height)/(-4),width: self.view.frame.width,height: self.view.frame.height)
         }, completion: nil)
     }
     @objc func keyboardHide(){

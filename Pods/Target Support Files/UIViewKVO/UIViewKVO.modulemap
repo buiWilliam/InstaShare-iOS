@@ -1,0 +1,6 @@
+framework module UIViewKVO {
+  umbrella header "UIViewKVO-umbrella.h"
+
+  export *
+  module * { export * }
+}

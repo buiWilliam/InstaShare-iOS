@@ -1,0 +1,6 @@
+framework module SwiftARGB {
+  umbrella header "SwiftARGB-umbrella.h"
+
+  export *
+  module * { export * }
+}

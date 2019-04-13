@@ -8,5 +8,6 @@ target 'InstaShare' do
 
     pod 'SwiftyJSON'
     pod 'Alamofire'
+    pod 'AssetsPickerViewController'
     
 end

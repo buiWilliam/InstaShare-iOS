@@ -62,6 +62,7 @@ class LoginViewController: UIViewController {
         if segue.identifier == "logInToHome"{
             let destination = segue.destination as! ViewController
             destination.access = self.access
+            destination.username = self.username.text!
         }
     }
     

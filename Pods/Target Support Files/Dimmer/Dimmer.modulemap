@@ -1,0 +1,6 @@
+framework module Dimmer {
+  umbrella header "Dimmer-umbrella.h"
+
+  export *
+  module * { export * }
+}

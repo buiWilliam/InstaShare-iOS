@@ -10,11 +10,25 @@ import UIKit
 import SwiftyJSON
 import MessageUI
 
+class previewTableCell: UITableViewCell{
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var phone_number: UILabel!
+    @IBOutlet weak var checkMark: UIButton!
+    @IBAction func selectCheck(_ sender: Any) {
+        if checkMark.isSelected{
+            checkMark.isSelected = false
+        } else{ checkMark.isSelected = true
+        }
+    }
+}
+
+
+
 class previewTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
     let cellID = "cellID"
     var photo: UIImage?
-    @IBOutlet weak var imageView: UIImageView!
+
     var rekognize: JSON?
     struct contact{
         var name: String
@@ -24,19 +38,19 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = photo
-        print(rekognize!)
-        for (_,subJson):(String, JSON) in rekognize! {
+ //       print(rekognize!)
+   /*     for (_,subJson):(String, JSON) in rekognize! {
             let name = subJson["name"].stringValue
             let phone_number = subJson["phone_number"].stringValue
             self.list.append(contact(name: name, phone_number: phone_number))
-        }
+        }*/
+        self.list.append(contact(name: "placeholder", phone_number:"1234567890"))
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
     }
 
@@ -49,16 +63,21 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(list.count)
         return list.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! previewTableCell
         
         let name = self.list[indexPath.row].name
         var phonenumber = ""
         phonenumber = self.list[indexPath.row].phone_number
 
-        cell.textLabel?.text = name + " " + phonenumber
+        cell.name?.text = name
+        cell.phone_number?.text = phonenumber
+        
+        print(cell.name?.text!)
+        print(cell.phone_number?.text!)
         
         return cell
     }
@@ -81,6 +100,9 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         
         // Close the Mail Interface
         controller.dismiss(animated: true, completion: nil)
+        if result == MessageComposeResult.sent{
+            self.performSegue(withIdentifier: "previewToHome", sender: self)
+        }
     }
     
 
@@ -89,14 +111,34 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         displayMessageInterface()
     }
     
+    
+    
     func displayMessageInterface() {
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = self
         composeVC.recipients = []
         // Configure the fields of the interface.
-        for contacts in list{
-            print("phone number: \(contacts.phone_number)")
-            composeVC.recipients?.append(contacts.phone_number)
+        /*NSMutableArray *cells = [[NSMutableArray alloc] init];
+        for (NSInteger j = 0; j < [tableView numberOfSections]; ++j)
+        {
+            for (NSInteger i = 0; i < [tableView numberOfRowsInSection:j]; ++i)
+            {
+                [cells addObject:[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:j]]];
+            }
+        }*/
+        var cells = [previewTableCell]()
+        for section in 0 ..< tableView.numberOfSections {
+            let rowCount = tableView.numberOfRows(inSection: section)
+            for row in 0 ..< rowCount {
+                let cell = tableView.cellForRow(at: IndexPath(row: row, section: section)) as! previewTableCell
+                cells.append(cell)
+            }
+        }
+        for cell in cells{
+            if cell.checkMark.isSelected != true{
+            print("phone number: \(cell.phone_number.text!)")
+            composeVC.recipients?.append(cell.phone_number.text!)
+            }
         }
         composeVC.body = "Sent from InstaShare"
         composeVC.addAttachmentData((photo!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
@@ -108,6 +150,11 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
             print("Can't send messages.")
         }
     }
+    
+    @IBAction func goHome(_ sender: Any) {
+        self.performSegue(withIdentifier: "previewToHome", sender: self)
+    }
+    
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

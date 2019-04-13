@@ -1,0 +1,6 @@
+framework module FadeView {
+  umbrella header "FadeView-umbrella.h"
+
+  export *
+  module * { export * }
+}

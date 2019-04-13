@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2032FF14224BF23000BC40EE /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2032FF13224BF23000BC40EE /* GalleryViewController.swift */; };
 		207ED91A2255A33F00B6A30C /* previewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207ED9192255A33F00B6A30C /* previewTableViewController.swift */; };
+		20D9DE0922617BD700528A62 /* GalleryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D9DE0822617BD700528A62 /* GalleryCollectionViewController.swift */; };
 		20DAF3A2223DD40C0008B3BF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DAF3A1223DD40C0008B3BF /* LoginViewController.swift */; };
 		20DAF3A4223DD4280008B3BF /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DAF3A3223DD4280008B3BF /* SignUpViewController.swift */; };
 		20F98C862239580C00583096 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F98C852239580C00583096 /* AppDelegate.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		2032FF13224BF23000BC40EE /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		207ED9192255A33F00B6A30C /* previewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = previewTableViewController.swift; sourceTree = "<group>"; };
+		20D9DE0822617BD700528A62 /* GalleryCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewController.swift; sourceTree = "<group>"; };
 		20DAF3A1223DD40C0008B3BF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		20DAF3A3223DD4280008B3BF /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		20F98C822239580C00583096 /* InstaShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 				20F98C8C2239580E00583096 /* Assets.xcassets */,
 				20F98C8E2239580E00583096 /* LaunchScreen.storyboard */,
 				20F98C912239580E00583096 /* Info.plist */,
+				20D9DE0822617BD700528A62 /* GalleryCollectionViewController.swift */,
 			);
 			path = InstaShare;
 			sourceTree = "<group>";
@@ -185,14 +188,30 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-InstaShare/Pods-InstaShare-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AssetsPickerViewController/AssetsPickerViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
+				"${BUILT_PRODUCTS_DIR}/Dimmer/Dimmer.framework",
+				"${BUILT_PRODUCTS_DIR}/FadeView/FadeView.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftARGB/SwiftARGB.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TinyLog/TinyLog.framework",
+				"${BUILT_PRODUCTS_DIR}/UIViewKVO/UIViewKVO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AssetsPickerViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Dimmer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FadeView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftARGB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyLog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIViewKVO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -235,6 +254,7 @@
 				20F98C882239580C00583096 /* ViewController.swift in Sources */,
 				20F98C862239580C00583096 /* AppDelegate.swift in Sources */,
 				20DAF3A2223DD40C0008B3BF /* LoginViewController.swift in Sources */,
+				20D9DE0922617BD700528A62 /* GalleryCollectionViewController.swift in Sources */,
 				20F98C9822395A4B00583096 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

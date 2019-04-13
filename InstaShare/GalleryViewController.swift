@@ -10,33 +10,37 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import MessageUI
+import AssetsPickerViewController
+import Photos
 
-class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
+class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegate, UINavigationControllerDelegate {
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        
+    func assetsPicker(controller: AssetsPickerViewController, selected assets: [PHAsset]) {
+
     }
-    
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/demo64/"
     let test = "http://10.108.93.47:8000/api/demo64/"
     var access = ""
     var rekognize: JSON?
     let imagePicker = UIImagePickerController()
+    let picker = AssetsPickerViewController()
     @IBOutlet weak var selectedImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        imagePicker.delegate = self
+        //imagePicker.delegate = self
+        picker.pickerDelegate = self
+        
     }
     
     @IBAction func loadImage(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .savedPhotosAlbum
-        
-        present(imagePicker, animated: true, completion: nil)
+        present(picker, animated: true, completion: nil)
+        //present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -50,7 +54,6 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     
 
     @IBAction func rekognize(_ sender: Any) {
-        print("button pressed")
         let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
         let imageSting = imageData!.base64EncodedString()
         let parameter = ["base_64":imageSting]

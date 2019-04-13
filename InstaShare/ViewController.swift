@@ -14,6 +14,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     let captureSession = AVCaptureSession()
     
     var access = ""
+    var username = ""
     var takenPhoto: UIImage?
     
     var previewLayer:CALayer!
@@ -22,7 +23,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     var backCamera:AVCaptureDevice!
     var captureDevice:AVCaptureDevice!
     
-    @IBOutlet weak var switchCamera: UIButton!
+    //@IBOutlet weak var switchCamera: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var contactsButton: UIButton!
     @IBOutlet weak var galleryButton: UIButton!
@@ -54,7 +55,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
     }
     
     
-    @IBAction func switchCamera(_ sender: Any) {
+    /*@IBAction func switchCamera(_ sender: Any) {
         let currentCamera = captureSession.inputs[0]
         captureSession.removeInput(currentCamera)
         if (captureDevice == backCamera){
@@ -69,7 +70,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         } catch{
             print(error.localizedDescription)
         }
-    }
+    }+*/
     
     func beginSession(){
         do{
@@ -85,7 +86,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.previewLayer.frame = self.view.layer.frame
         view.bringSubviewToFront(cameraButton)
-        view.bringSubviewToFront(switchCamera)
+        //view.bringSubviewToFront(switchCamera)
         view.bringSubviewToFront(contactsButton)
         view.bringSubviewToFront(galleryButton)
         captureSession.startRunning()
@@ -145,6 +146,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
             let destination = segue.destination as! UINavigationController
             let contacts = destination.viewControllers.first as! ContactTableViewController
             contacts.access = self.access
+            contacts.username = self.username
             
         }
         if segue.identifier == "homeToGallery"{
