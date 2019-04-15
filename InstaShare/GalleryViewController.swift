@@ -47,8 +47,8 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         }
     }
     
-    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/demo64/"
-    let test = "http://10.108.93.47:8000/api/demo64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
+    let test = "http://10.108.93.47:8000/api/singlephotoMobile/"
     var access = ""
     var rekognize: JSON?
     let imagePicker = UIImagePickerController()
@@ -125,7 +125,9 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
+                print(response.result.value!)
                 self.rekognize  = JSON(response.result.value!)
+                
                 self.performSegue(withIdentifier: "galleryToPreview", sender: self)
             } else{
                 print("Error \(String(describing: response.result.error))")
@@ -141,6 +143,7 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
             let destination = nav.viewControllers.first as! previewTableViewController
             destination.photo = selectedImage.image
             destination.rekognize = rekognize
+            destination.access = access
             
         }
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s64-2j-Rdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sby-ri-tlZ">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -88,11 +88,22 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2n-wK-x5F">
+                                <rect key="frame" x="160.66666666666666" y="676" width="93" height="30"/>
+                                <state key="normal" title="Back to log in">
+                                    <color key="titleColor" red="0.94901960780000005" green="0.68627450980000004" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="goBack:" destination="PJZ-cz-vAp" eventType="touchUpInside" id="pIc-5R-EzO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qK8-tb-AGJ" firstAttribute="centerY" secondItem="DoI-E9-GfN" secondAttribute="centerY" id="2bW-5E-kA3"/>
                             <constraint firstItem="qK8-tb-AGJ" firstAttribute="centerX" secondItem="DoI-E9-GfN" secondAttribute="centerX" id="GgM-Qi-Zr5"/>
+                            <constraint firstItem="l2n-wK-x5F" firstAttribute="centerX" secondItem="DoI-E9-GfN" secondAttribute="centerX" id="J9E-hK-VVq"/>
+                            <constraint firstItem="MYV-Wd-qbf" firstAttribute="bottom" secondItem="l2n-wK-x5F" secondAttribute="bottom" constant="30" id="yFw-Jd-Qpz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MYV-Wd-qbf"/>
                     </view>
@@ -341,7 +352,7 @@
                         <color key="barTintColor" red="0.94901960780000005" green="0.68627450980000004" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </toolbar>
                     <connections>
-                        <segue destination="cL4-sU-fWc" kind="relationship" relationship="rootViewController" id="KAD-of-LYI"/>
+                        <segue destination="cL4-sU-fWc" kind="relationship" relationship="rootViewController" id="82w-Kn-TK1"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PHW-UJ-ADG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -356,7 +367,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H6m-i6-YI9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H6m-i6-YI9">
                                 <rect key="frame" x="50" y="114" width="314" height="578"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="0lM-ji-DZE">
@@ -727,15 +738,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="66" height="66"/>
+        <image name="Image" width="66.666664123535156" height="66.666664123535156"/>
         <image name="icons8-contacts-64" width="64" height="64"/>
         <image name="icons8-final-state-filled-75 (1)" width="75" height="75"/>
         <image name="icons8-picture-64" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LDP-1p-kzP"/>
-        <segue reference="tFK-QG-yWd"/>
-        <segue reference="AhO-Wf-fl4"/>
-        <segue reference="ly4-ju-82X"/>
+        <segue reference="URh-d2-oDT"/>
+        <segue reference="9eD-3q-HAD"/>
     </inferredMetricsTieBreakers>
 </document>

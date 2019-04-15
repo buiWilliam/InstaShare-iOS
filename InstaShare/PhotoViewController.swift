@@ -14,12 +14,15 @@ import Contacts
 
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
-    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/demo64/"
-    let test = "http://10.108.93.47:8000/api/demo64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
+    let test = "http://10.108.93.47:8000/api/singlephotoMobile/"
     var access = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
     var rekognize: JSON?
+    var firstNameisNotBlank = false
+    var phoneNumberLength = false
+    var action: UIAlertAction?
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
     }
     
@@ -43,10 +46,13 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         let parameter = ["base_64":imageSting]
         //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+        
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
+                print(response.result.value!)
                 self.rekognize  = JSON(response.result.value!)
+                print(self.rekognize!)
                 self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
             } else{
                 print("Error \(String(describing: response.result.error))")
@@ -64,8 +70,11 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         var firstName = UITextField()
         var lastName = UITextField()
         var phoneNumber = UITextField()
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+            
+        })
         let alert = UIAlertController(title: "Add New Contact", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add Contact", style: .default) { (action) in
+        action = UIAlertAction(title: "Add Contact", style: .default) { (action) in
             newContact.givenName = firstName.text!
             newContact.familyName = lastName.text!
             newContact.phoneNumbers = [CNLabeledValue(label: CNLabelPhoneNumberMain, value: CNPhoneNumber(stringValue: phoneNumber.text!))]
@@ -79,9 +88,12 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
                 // ... deal with error
             }
         }
-        alert.addAction(action)
+        action!.isEnabled = false
+        alert.addAction(action!)
+        alert.addAction(cancelAction)
         alert.addTextField { (alertFirstName) in
             alertFirstName.placeholder = "First Name"
+            alertFirstName.addTarget(self, action: #selector(self.firstNameFilled(_:)), for: .editingChanged)
             firstName = alertFirstName
         }
         alert.addTextField { (alertLastName) in
@@ -90,10 +102,40 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         }
         alert.addTextField { (alertPhoneNumber) in
             alertPhoneNumber.placeholder = "Phone Number"
+            alertPhoneNumber.addTarget(self, action: #selector(self.phoneNumberCheck(_:)), for: .editingChanged)
             phoneNumber = alertPhoneNumber
         }
         present(alert, animated: true, completion: nil)
+            if firstName.text == "" || phoneNumber.text?.count != 10{
+                alert.actions.first!.isEnabled = false
+            }
+            else{
+                alert.actions.first!.isEnabled = true
+            }
+        }
+    
+    @objc private func firstNameFilled(_ field: UITextField) {
+        firstNameisNotBlank = field.text! != ""
+        if firstNameisNotBlank && phoneNumberLength{
+            action!.isEnabled = true
+        }
+        else{
+            action!.isEnabled = false
+        }
     }
+    
+    @objc private func phoneNumberCheck(_ field: UITextField) {
+        phoneNumberLength = field.text!.count == 10
+        if firstNameisNotBlank && phoneNumberLength{
+            action!.isEnabled = true
+        }
+        else{
+            action!.isEnabled = false
+        }
+    }
+    
+    
+    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -102,6 +144,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
             let destination = nav.viewControllers.first as! previewTableViewController
             destination.photo = imageView.image
             destination.rekognize = rekognize
+            destination.access = access
         }
     }
     

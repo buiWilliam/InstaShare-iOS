@@ -27,6 +27,7 @@ class previewTableCell: UITableViewCell{
 class previewTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
     let cellID = "cellID"
+    var access = ""
     var photo: UIImage?
 
     var rekognize: JSON?
@@ -38,13 +39,15 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
 
     override func viewDidLoad() {
         super.viewDidLoad()
- //       print(rekognize!)
-   /*     for (_,subJson):(String, JSON) in rekognize! {
+        list = [contact]()
+        print(self.rekognize!)
+        for (_,subJson):(String, JSON) in rekognize! {
             let name = subJson["name"].stringValue
             let phone_number = subJson["phone_number"].stringValue
             self.list.append(contact(name: name, phone_number: phone_number))
-        }*/
-        self.list.append(contact(name: "placeholder", phone_number:"1234567890"))
+        }
+        tableView.reloadData()
+//        self.list.append(contact(name: "placeholder", phone_number:"1234567890"))
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -148,6 +151,12 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
             self.present(composeVC, animated: true, completion: nil)
         } else {
             print("Can't send messages.")
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "previewToHome"{
+        let destination = segue.destination as! ViewController
+        destination.access = access
         }
     }
     

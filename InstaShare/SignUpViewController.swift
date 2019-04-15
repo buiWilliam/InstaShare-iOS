@@ -51,11 +51,26 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func submitButton(_ sender: Any){
+        let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+            
+        }
         if (username.text == "" || password.text == "" || passwordConfirm.text == "" || eMail.text == "" || phone_number.text == "" || firstName.text == "" || lastName.text == ""){
             print("Required text field is blank")
+            let alert = UIAlertController(title: "Sign Up Failed", message: "Required text field is blank.", preferredStyle: .alert)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
         }
         else if password.text != passwordConfirm.text{
             print("Password does not match")
+            let alert = UIAlertController(title: "Sign Up Failed", message: "Password does not match.", preferredStyle: .alert)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+        }
+        else if phone_number.text?.count != 10{
+            print("Invalid phone number")
+            let alert = UIAlertController(title: "Sign Up Failed", message: "Phone number should be 10 long.", preferredStyle: .alert)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
         }
         else{
             let parameter = submit()
@@ -65,16 +80,26 @@ class SignUpViewController: UIViewController {
                 if response.result.isSuccess{
                     let signup  = JSON(response.result.value!)
                     print(signup)
-                    if signup["id"] != "" {
-                        self.performSegue(withIdentifier: "signUpToLogIn", sender: self)
+                    print("value: \(signup["email"].stringValue)")
+                    if signup["email"].stringValue == ""
+                        {
+                        let alert = UIAlertController(title: "Sign Up Failed", message: "Enter a valid email Address.", preferredStyle: .alert)
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    else if signup["id"] != "" {
+                        self.dismiss(animated: true, completion: nil)
                     }
                 } else{
-                    print("Error \(String(describing: response.result.error))")
+                    print("Error \(response.result.error!)")
                 }
             }
         }
     }
     
+    @IBAction func goBack(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
     func submit()->[String:String]{

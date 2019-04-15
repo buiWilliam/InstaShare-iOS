@@ -80,8 +80,13 @@ class LoginViewController: UIViewController {
                         
                         self.performSegue(withIdentifier: "logInToHome", sender: self)
                     }
-                    else{
-                        print("No regristered account")
+                    if login["non_field_errors"] != "" {
+                        let alert = UIAlertController(title: "Account Not Found", message: "No account found with the given credentials.", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                            
+                        })
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 } else{
                     print("Error \(String(describing: response.result.error))")

@@ -14,11 +14,11 @@ import SwiftyJSON
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
-    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContact64/"
-    let test = "http://10.108.93.47:8000/api/uploadContact64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContactMobile/"
+    let test = "http://10.108.93.47:8000/api/uploadContactMobile/"
     var access = ""
     var username = ""
-    
+    var action: UIAlertAction?
     let storage = UserDefaults.standard
     var id : [String:String] = [:]
     
@@ -115,12 +115,11 @@ class ContactTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let name = indexPath.section == 0 ? self.ready[indexPath.row].name : self.notReady[indexPath.row].name
-        let identifier = indexPath.section == 0 ? self.ready[indexPath.row].identifier : self.notReady[indexPath.row].identifier
         var phonenumber = ""
         if (indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber : self.notReady[indexPath.row].phoneNumber) != nil{
             phonenumber = indexPath.section == 0 ? self.ready[indexPath.row].phoneNumber! : self.notReady[indexPath.row].phoneNumber!
         }
-        cell.textLabel?.text = name! + " " + phonenumber + " " + identifier
+        cell.textLabel?.text = name! + " " + phonenumber
         if (indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic) != nil{
             let image = indexPath.section == 0 ? self.ready[indexPath.row].referencePic : self.notReady[indexPath.row].referencePic
             cell.imageView?.image = UIImage(data: image!)
@@ -132,13 +131,23 @@ class ContactTableViewController: UITableViewController {
     }
     
     func uploadContact(){
+        let alert = UIAlertController(title: "Uploading contacts", message: "Please wait...", preferredStyle: .alert)
+        action = UIAlertAction(title: "Done", style: .default) { (action) in
+            print("Done")
+        }
+        action!.isEnabled = false
+        alert.addAction(action!)
+        present(alert, animated: true, completion: nil)
+        let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         for info in ready{
+            print(info.name!)
             let image = UIImage(data: info.referencePic!)
             let imageData = image!.jpegData(compressionQuality: 1.0)
             let imageString = imageData?.base64EncodedString()
+            print(info.phoneNumber!)
             let phoneNumber = trim(phonenumber: info.phoneNumber!)
             let parameters = ["name":info.name!,"phone_number":phoneNumber,"base_64":imageString!]
-            let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+            
             if id[info.identifier]==nil{
             Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                 response in
@@ -156,8 +165,10 @@ class ContactTableViewController: UITableViewController {
                 }
             }
             else{
-                let putUrl = "\(baseURL)/\(id[info.identifier]!)/"
-                Alamofire.request(putUrl, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseString{
+                print("Making a put request with ID: \(id[info.identifier]!)")
+                let putUrl = "\(baseURL)\(id[info.identifier]!)/"
+                print(putUrl)
+                Alamofire.request(putUrl, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                         response in
                     if response.result.isSuccess {
                         let contact = JSON(response.result.value!)
@@ -166,6 +177,7 @@ class ContactTableViewController: UITableViewController {
                 }
             }
         }
+        action!.isEnabled = true
     }
     
     func trim(phonenumber:String)->String{
