@@ -14,8 +14,8 @@ import SwiftyJSON
 class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
-    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContact64/"
-    let test = "http://10.108.93.47:8000/api/uploadContact64/"
+    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContactMobile/"
+    let test = "http://10.108.93.47:8000/api/uploadContactMobile/"
     var access = ""
     var username = ""
     
