@@ -160,6 +160,7 @@ class ViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDeleg
             let camera = destination.viewControllers.first as! PhotoViewController
             camera.takenPhoto = takenPhoto
             camera.access = access
+            camera.username = username
         }
     }
     

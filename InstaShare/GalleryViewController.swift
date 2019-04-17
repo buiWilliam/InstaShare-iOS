@@ -47,7 +47,8 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         }
     }
     
-    let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
+    let singleURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
+    let batchURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/batchuploadMobile/"
     let test = "http://10.108.93.47:8000/api/singlephotoMobile/"
     var access = ""
     var rekognize: JSON?
@@ -111,18 +112,16 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     
 
     @IBAction func rekognize(_ sender: Any) {
-        //let imageData = selectedImage.image?.jpegData(compressionQuality: 1.0)
-        //let imageSting = imageData!.base64EncodedString()
-        //let parameter = ["base_64":imageSting]
+        let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+        if imgArray.count > 1{
         var parameter = ["group_photos" : [String]()]
         for image in imgArray{
             let imageData = image.jpegData(compressionQuality: 1.0)
             let imageSting = imageData!.base64EncodedString()
             parameter["group_photos"]!.append(imageSting)
         }
-        //print(parameter)
-        let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
-        Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+        
+        Alamofire.request(batchURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
                 print(response.result.value!)
@@ -133,6 +132,19 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
                 print("Error \(String(describing: response.result.error))")
             }
             
+        }
+        }
+        else{
+            let imageData = imgArray[0].jpegData(compressionQuality: 1)
+            let imageString = imageData?.base64EncodedData()
+            let parameter = ["base64":imageString!]
+            Alamofire.request(singleURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
+                if response.result.isSuccess{
+                    print(response.result.value!)
+                    self.rekognize = JSON(response.result.value!)
+                    self.performSegue(withIdentifier: "galleryToPreview", sender: self)
+                }
+            }
         }
     }
     

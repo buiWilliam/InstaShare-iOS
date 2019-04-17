@@ -23,14 +23,20 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     var firstNameisNotBlank = false
     var phoneNumberLength = false
     var action: UIAlertAction?
+    let storage = UserDefaults.standard
+    var username = ""
+    var id: [String:String] = [:]
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
     }
+    var newContactIdentifier = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if let availableImage = takenPhoto{
             imageView.image=availableImage
         }
+        id = storage.dictionary(forKey: username) as! [String:String]
         // Do any additional setup after loading the view.
     }
     
@@ -84,6 +90,9 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
                 newContactRequest.add(newContact, toContainerWithIdentifier: nil)
                 try CNContactStore().execute(newContactRequest)
                 // ... if control flow gets here, save operation succeed.
+                if newContact.isKeyAvailable(CNContactIdentifierKey){
+                    self.newContactIdentifier = newContact.identifier
+                }
             } catch {
                 // ... deal with error
             }
@@ -134,7 +143,38 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         }
     }
     
-    
+    func uploadContact(firstName:String,lastName:String,phoneNumber:String){
+        let alert = UIAlertController(title: "Uploading contacts", message: "Please wait...", preferredStyle: .alert)
+        action = UIAlertAction(title: "Done", style: .default) { (action) in
+            print("Done")
+        }
+        action!.isEnabled = false
+        alert.addAction(action!)
+        present(alert, animated: true, completion: nil)
+        let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+        let name = firstName + " " + lastName
+            print(name)
+            let imageData = self.takenPhoto!.jpegData(compressionQuality: 1.0)
+            let imageString = imageData?.base64EncodedString()
+            print(phoneNumber)
+            let parameters = ["name":name,"phone_number":phoneNumber,"base_64":imageString!]
+        
+                Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+                    response in
+                    if response.result.isSuccess{
+                        let contact = JSON(response.result.value!)
+                        if contact["id"].stringValue != ""{
+                            let idPair = [self.newContactIdentifier:contact["id"].stringValue]
+                            self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                            self.storage.set(self.id, forKey: self.username)
+                        }
+                        print(contact)
+                    } else{
+                        print("Error \(String(describing: response.result.error))")
+                    }
+                }
+        action!.isEnabled = true
+    }
     
     
     
