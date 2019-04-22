@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/token/"
-    let testingURL = "http://10.108.93.47:8000/api/token/"
+    let testingURL = "http://10.108.94.186:8000/api/token/"
     var access: String = ""
     var refresh: String = ""
     

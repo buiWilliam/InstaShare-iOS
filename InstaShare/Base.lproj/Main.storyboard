@@ -310,15 +310,24 @@
                                     <action selector="contactAction:" destination="UD1-gS-N55" eventType="touchUpInside" id="cmK-zW-4da"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTe-6a-XAG">
+                                <rect key="frame" x="336" y="40" width="48" height="48"/>
+                                <state key="normal" image="icons8-switch-camera-48"/>
+                                <connections>
+                                    <action selector="switchCamera:" destination="UD1-gS-N55" eventType="touchUpInside" id="cHf-OB-Nxa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="iTe-6a-XAG" firstAttribute="top" secondItem="O9u-BK-42J" secondAttribute="top" constant="20" id="3sN-zl-HxU"/>
                             <constraint firstItem="O9u-BK-42J" firstAttribute="bottom" secondItem="gft-Pn-uDK" secondAttribute="bottom" constant="20" id="HMT-3a-22M"/>
                             <constraint firstItem="7dM-Dd-Qbm" firstAttribute="centerX" secondItem="ydR-F9-hN4" secondAttribute="centerX" id="M3d-aS-mGV"/>
                             <constraint firstItem="O9u-BK-42J" firstAttribute="trailing" secondItem="SQT-cg-G4c" secondAttribute="trailing" constant="30" id="aRd-lI-9PL"/>
                             <constraint firstItem="gft-Pn-uDK" firstAttribute="leading" secondItem="O9u-BK-42J" secondAttribute="leading" constant="30" id="dOt-GV-yGd"/>
                             <constraint firstItem="O9u-BK-42J" firstAttribute="bottom" secondItem="SQT-cg-G4c" secondAttribute="bottom" constant="20" id="kfS-dQ-GB3"/>
                             <constraint firstItem="O9u-BK-42J" firstAttribute="bottom" secondItem="7dM-Dd-Qbm" secondAttribute="bottom" constant="20" id="mdU-kB-btl"/>
+                            <constraint firstItem="O9u-BK-42J" firstAttribute="trailing" secondItem="iTe-6a-XAG" secondAttribute="trailing" constant="30" id="qcU-ot-Owa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O9u-BK-42J"/>
                     </view>
@@ -328,6 +337,7 @@
                         <outlet property="cameraButton" destination="7dM-Dd-Qbm" id="Ofa-Px-ntT"/>
                         <outlet property="contactsButton" destination="SQT-cg-G4c" id="rpj-tE-rk6"/>
                         <outlet property="galleryButton" destination="gft-Pn-uDK" id="ymD-bV-Hjl"/>
+                        <outlet property="switchCamera" destination="iTe-6a-XAG" id="4kn-B3-hdd"/>
                         <segue destination="Kzi-cQ-AXi" kind="presentation" identifier="homeToContacts" id="pVK-yp-EcY"/>
                         <segue destination="K9J-sm-GA8" kind="presentation" identifier="homeToGallery" id="xdU-Po-iMf"/>
                         <segue destination="s64-2j-Rdm" kind="presentation" identifier="homeToCamera" id="bN1-UP-wXP"/>
@@ -461,6 +471,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="RekognizeButton" destination="o0v-Th-YEt" id="frd-zK-acc"/>
                         <outlet property="current" destination="e6B-uz-41q" id="VwT-Ik-SPQ"/>
                         <outlet property="nextButton" destination="QuO-Fj-Vfw" id="k1f-FS-T4f"/>
                         <outlet property="prevButton" destination="MXV-dh-XNK" id="cTX-k5-Fgy"/>
@@ -619,7 +630,9 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="addContactbutton" destination="w3W-nR-uS4" id="h1f-yk-hr4"/>
                         <outlet property="imageView" destination="Io3-hw-tnY" id="i3o-Gc-LHa"/>
+                        <outlet property="rekognizeButton" destination="LUy-T2-k0w" id="2DE-qV-dF9"/>
                         <segue destination="o1A-AF-84g" kind="presentation" identifier="cameraToPreview" id="AhO-Wf-fl4"/>
                     </connections>
                 </viewController>
@@ -693,6 +706,7 @@
                     </tableView>
                     <toolbarItems>
                         <barButtonItem title="Send" width="414" id="tSO-v9-Mht">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="composeMessage:" destination="gVP-um-Lbz" id="O6i-1C-roI"/>
                             </connections>
@@ -700,6 +714,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="3YB-hc-suu">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="CYs-7B-Q0D">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="goHome:" destination="gVP-um-Lbz" id="Y1F-Xf-jwX"/>
                             </connections>
@@ -742,9 +757,10 @@
         <image name="icons8-contacts-64" width="64" height="64"/>
         <image name="icons8-final-state-filled-75 (1)" width="75" height="75"/>
         <image name="icons8-picture-64" width="64" height="64"/>
+        <image name="icons8-switch-camera-48" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="URh-d2-oDT"/>
-        <segue reference="9eD-3q-HAD"/>
+        <segue reference="ly4-ju-82X"/>
     </inferredMetricsTieBreakers>
 </document>

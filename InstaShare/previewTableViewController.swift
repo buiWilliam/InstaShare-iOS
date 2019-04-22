@@ -28,8 +28,8 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
     
     let cellID = "cellID"
     var access = ""
-    var photo: UIImage?
-
+    var photo = [UIImage]()
+    var username = ""
     var rekognize: JSON?
     struct contact{
         var name: String
@@ -114,6 +114,9 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         displayMessageInterface()
     }
     
+    @IBAction func addToList(_ sender: Any) {
+        
+    }
     
     
     func displayMessageInterface() {
@@ -144,8 +147,11 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
             }
         }
         composeVC.body = "Sent from InstaShare"
-        composeVC.addAttachmentData((photo!.jpegData(compressionQuality: 1.0))!, typeIdentifier: "public.data", filename: "image.jpeg")
-        
+        var i = 0
+        for image in photo{
+            composeVC.addAttachmentData(image.jpegData(compressionQuality: 1.0)!, typeIdentifier: "public.data", filename: "image\(i).jpeg")
+            i = i + 1
+        }
         // Present the view controller modally.
         if MFMessageComposeViewController.canSendText() {
             self.present(composeVC, animated: true, completion: nil)
@@ -157,6 +163,7 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         if segue.identifier == "previewToHome"{
         let destination = segue.destination as! ViewController
         destination.access = access
+        destination.username = username
         }
     }
     

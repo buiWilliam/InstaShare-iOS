@@ -15,8 +15,11 @@ import Contacts
 class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
-    let test = "http://10.108.93.47:8000/api/singlephotoMobile/"
+    let test = "http://10.108.94.186:8000/api/singlephotoMobile/"
+    let uploadContactTest = "http://10.108.94.186:8000/api/uploadContactMobile/"
+    let uploadContact = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80//api/uploadContactMobile/"
     var access = ""
+    var username = ""
     var takenPhoto:UIImage?
     @IBOutlet weak var imageView: UIImageView!
     var rekognize: JSON?
@@ -24,17 +27,20 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     var phoneNumberLength = false
     var action: UIAlertAction?
     let storage = UserDefaults.standard
-    var username = ""
     var id: [String:String] = [:]
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
     }
     var newContactIdentifier = ""
     
+    @IBOutlet weak var rekognizeButton: UIBarButtonItem!
+    @IBOutlet weak var addContactbutton: UIBarButtonItem!
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         if let availableImage = takenPhoto{
-            imageView.image=availableImage
+            imageView.image = availableImage
         }
         id = storage.dictionary(forKey: username) as! [String:String]
         // Do any additional setup after loading the view.
@@ -92,6 +98,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
                 // ... if control flow gets here, save operation succeed.
                 if newContact.isKeyAvailable(CNContactIdentifierKey){
                     self.newContactIdentifier = newContact.identifier
+                    self.uploadContact(firstName: firstName.text!, lastName: lastName.text!, phoneNumber: phoneNumber.text!)
                 }
             } catch {
                 // ... deal with error
@@ -144,13 +151,14 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     }
     
     func uploadContact(firstName:String,lastName:String,phoneNumber:String){
-        let alert = UIAlertController(title: "Uploading contacts", message: "Please wait...", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Uploading contact", message: "Please wait...", preferredStyle: .alert)
         action = UIAlertAction(title: "Done", style: .default) { (action) in
             print("Done")
         }
         action!.isEnabled = false
         alert.addAction(action!)
         present(alert, animated: true, completion: nil)
+        print("\(newContactIdentifier)")
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         let name = firstName + " " + lastName
             print(name)
@@ -159,7 +167,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
             print(phoneNumber)
             let parameters = ["name":name,"phone_number":phoneNumber,"base_64":imageString!]
         
-                Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+                Alamofire.request(uploadContact, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
                     response in
                     if response.result.isSuccess{
                         let contact = JSON(response.result.value!)
@@ -168,12 +176,13 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
                             self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
                             self.storage.set(self.id, forKey: self.username)
                         }
+                        self.action!.isEnabled = true
                         print(contact)
                     } else{
                         print("Error \(String(describing: response.result.error))")
                     }
                 }
-        action!.isEnabled = true
+        
     }
     
     
@@ -182,9 +191,10 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         if segue.identifier == "cameraToPreview"{
             let nav = segue.destination as! UINavigationController
             let destination = nav.viewControllers.first as! previewTableViewController
-            destination.photo = imageView.image
+            destination.photo.append(imageView.image!)
             destination.rekognize = rekognize
             destination.access = access
+            destination.username = username
         }
     }
     

@@ -22,7 +22,7 @@ class SignUpViewController: UIViewController {
     
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/register/"
-    let test = "http://10.108.93.47:8000/api/register/"
+    let test = "http://10.108.94.186:8000/api/register/"
     
     override func viewDidLoad() {
         super.viewDidLoad()

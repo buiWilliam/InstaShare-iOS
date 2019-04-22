@@ -16,6 +16,7 @@ import Photos
 class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegate, UINavigationControllerDelegate {
     
     var imgArray = [UIImage]()
+    @IBOutlet weak var RekognizeButton: UIBarButtonItem!
     
     func assetsPicker(controller: AssetsPickerViewController, selected assets: [PHAsset]) {
         i = 0
@@ -31,6 +32,7 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
             })
         }
         selectedImage.image = imgArray[0]
+        RekognizeButton.isEnabled = true
         current.text = "1"
         total.text = "\(imgArray.count)"
         if i == imgArray.count - 1{
@@ -49,8 +51,10 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     
     let singleURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
     let batchURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/batchuploadMobile/"
-    let test = "http://10.108.93.47:8000/api/singlephotoMobile/"
+    let testSingle = "http://10.108.94.186:8000/api/singlephotoMobile/"
+    let testBatch = "http://10.108.94.186:8000/api/batchuploadMobile/"
     var access = ""
+    var username = ""
     var rekognize: JSON?
     let imagePicker = UIImagePickerController()
     let picker = AssetsPickerViewController()
@@ -86,6 +90,7 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         super.viewDidLoad()
         prevButton.isEnabled = false
         nextButton.isEnabled = false
+        RekognizeButton.isEnabled = false
         current.text = "0"
         total.text = "0"
         // Do any additional setup after loading the view.
@@ -112,22 +117,31 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     
 
     @IBAction func rekognize(_ sender: Any) {
+        let alert = UIAlertController(title: "Uploading Photos", message: "Please Wait...", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Done", style: .default) { (action) in
+            self.performSegue(withIdentifier: "galleryToPreview", sender: self)
+        }
+        action.isEnabled = false
+        alert.addAction(action)
+        
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         if imgArray.count > 1{
-        var parameter = ["group_photos" : [String]()]
+            present(alert, animated: true, completion: nil)
+        var parameter = ["group_photo" : [String]()]
         for image in imgArray{
             let imageData = image.jpegData(compressionQuality: 1.0)
             let imageSting = imageData!.base64EncodedString()
-            parameter["group_photos"]!.append(imageSting)
+            parameter["group_photo"]!.append(imageSting)
         }
         
-        Alamofire.request(batchURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
-            response in
+            Alamofire.request(batchURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+                .responseJSON{
+                    response in
             if response.result.isSuccess{
                 print(response.result.value!)
                 self.rekognize  = JSON(response.result.value!)
+                action.isEnabled = true
                 
-                self.performSegue(withIdentifier: "galleryToPreview", sender: self)
             } else{
                 print("Error \(String(describing: response.result.error))")
             }
@@ -135,27 +149,38 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         }
         }
         else{
-            let imageData = imgArray[0].jpegData(compressionQuality: 1)
-            let imageString = imageData?.base64EncodedData()
-            let parameter = ["base64":imageString!]
-            Alamofire.request(singleURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
+            let image = imgArray[0].jpegData(compressionQuality: 1)
+            let imageSting = image!.base64EncodedString()
+            let parameter = ["base_64":imageSting]
+            //print(parameter)
+            let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+            
+            Alamofire.request(singleURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
+                response in
                 if response.result.isSuccess{
                     print(response.result.value!)
-                    self.rekognize = JSON(response.result.value!)
-                    self.performSegue(withIdentifier: "galleryToPreview", sender: self)
+                    self.rekognize  = JSON(response.result.value!)
+                    print(self.rekognize!)
+                    self.performSegue(withIdentifier: "galleryToPreview", sender: nil)
+                } else{
+                    print("Error \(String(describing: response.result.error))")
                 }
+                
             }
         }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "galleryToPreview"{
             let nav = segue.destination as! UINavigationController
             let destination = nav.viewControllers.first as! previewTableViewController
-            destination.photo = selectedImage.image
+            for image in imgArray{
+                destination.photo.append(image)
+            }
             destination.rekognize = rekognize
             destination.access = access
+            destination.username = username
             
         }
     }

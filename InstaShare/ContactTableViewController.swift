@@ -15,9 +15,10 @@ class ContactTableViewController: UITableViewController {
     
     let cellID = "cellID"
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/uploadContactMobile/"
-    let test = "http://10.108.93.47:8000/api/uploadContactMobile/"
+    let test = "http://10.108.94.186:8000/api/uploadContactMobile/"
     var access = ""
     var username = ""
+    var count = 0
     var action: UIAlertAction?
     let storage = UserDefaults.standard
     var id : [String:String] = [:]
@@ -139,6 +140,7 @@ class ContactTableViewController: UITableViewController {
         alert.addAction(action!)
         present(alert, animated: true, completion: nil)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
+        count = ready.count
         for info in ready{
             print(info.name!)
             let image = UIImage(data: info.referencePic!)
@@ -158,6 +160,7 @@ class ContactTableViewController: UITableViewController {
                     self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
                     self.storage.set(self.id, forKey: self.username)
                     }
+                    self.checkIfRequestFinished()
                     print(contact)
                 } else{
                     print("Error \(String(describing: response.result.error))")
@@ -172,12 +175,13 @@ class ContactTableViewController: UITableViewController {
                         response in
                     if response.result.isSuccess {
                         let contact = JSON(response.result.value!)
+                        self.checkIfRequestFinished()
                         print(contact)
+                        
                     }
                 }
             }
         }
-        action!.isEnabled = true
     }
     
     func trim(phonenumber:String)->String{
@@ -185,6 +189,13 @@ class ContactTableViewController: UITableViewController {
         return digit
     }
     
+    func checkIfRequestFinished(){
+        print(count)
+        count = count - 1
+        if count == 0 {
+            action?.isEnabled = true
+        }
+    }
 }
 
 
