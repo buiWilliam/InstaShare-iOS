@@ -36,34 +36,32 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         var phone_number: String
     }
     var list = [contact]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         list = [contact]()
-        print(self.rekognize!)
         for (_,subJson):(String, JSON) in rekognize! {
             let name = subJson["name"].stringValue
             let phone_number = subJson["phone_number"].stringValue
             self.list.append(contact(name: name, phone_number: phone_number))
         }
         tableView.reloadData()
-//        self.list.append(contact(name: "placeholder", phone_number:"1234567890"))
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         //tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         print(list.count)
@@ -75,12 +73,12 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         let name = self.list[indexPath.row].name
         var phonenumber = ""
         phonenumber = self.list[indexPath.row].phone_number
-
+        
         cell.name?.text = name
         cell.phone_number?.text = phonenumber
         
-        print(cell.name?.text!)
-        print(cell.phone_number?.text!)
+        print(cell.name!.text!)
+        print(cell.phone_number!.text!)
         
         return cell
     }
@@ -108,7 +106,7 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         }
     }
     
-
+    
     
     @IBAction func composeMessage(_ sender: Any) {
         displayMessageInterface()
@@ -123,15 +121,6 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = self
         composeVC.recipients = []
-        // Configure the fields of the interface.
-        /*NSMutableArray *cells = [[NSMutableArray alloc] init];
-        for (NSInteger j = 0; j < [tableView numberOfSections]; ++j)
-        {
-            for (NSInteger i = 0; i < [tableView numberOfRowsInSection:j]; ++i)
-            {
-                [cells addObject:[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:j]]];
-            }
-        }*/
         var cells = [previewTableCell]()
         for section in 0 ..< tableView.numberOfSections {
             let rowCount = tableView.numberOfRows(inSection: section)
@@ -142,8 +131,8 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         }
         for cell in cells{
             if cell.checkMark.isSelected != true{
-            print("phone number: \(cell.phone_number.text!)")
-            composeVC.recipients?.append(cell.phone_number.text!)
+                print("phone number: \(cell.phone_number.text!)")
+                composeVC.recipients?.append(cell.phone_number.text!)
             }
         }
         composeVC.body = "Sent from InstaShare"
@@ -161,9 +150,9 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "previewToHome"{
-        let destination = segue.destination as! ViewController
-        destination.access = access
-        destination.username = username
+            let destination = segue.destination as! ViewController
+            destination.access = access
+            destination.username = username
         }
     }
     
@@ -171,60 +160,60 @@ class previewTableViewController: UITableViewController, MFMessageComposeViewCon
         self.performSegue(withIdentifier: "previewToHome", sender: self)
     }
     
-
+    
     /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
+     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+     
+     // Configure the cell...
+     
+     return cell
+     }
+     */
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

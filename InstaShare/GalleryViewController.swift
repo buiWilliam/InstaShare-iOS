@@ -94,16 +94,12 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         current.text = "0"
         total.text = "0"
         // Do any additional setup after loading the view.
-        //imagePicker.delegate = self
         picker.pickerDelegate = self
         
     }
     
     @IBAction func loadImage(_ sender: Any) {
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .savedPhotosAlbum
         present(picker, animated: true, completion: nil)
-        //present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -115,7 +111,7 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         self.dismiss(animated: true, completion: nil)
     }
     
-
+    
     @IBAction func rekognize(_ sender: Any) {
         let alert = UIAlertController(title: "Uploading Photos", message: "Please Wait...", preferredStyle: .alert)
         let action = UIAlertAction(title: "Done", style: .default) { (action) in
@@ -127,32 +123,31 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         if imgArray.count > 1{
             present(alert, animated: true, completion: nil)
-        var parameter = ["group_photo" : [String]()]
-        for image in imgArray{
-            let imageData = image.jpegData(compressionQuality: 1.0)
-            let imageSting = imageData!.base64EncodedString()
-            parameter["group_photo"]!.append(imageSting)
-        }
-        
+            var parameter = ["group_photo" : [String]()]
+            for image in imgArray{
+                let imageData = image.jpegData(compressionQuality: 1.0)
+                let imageSting = imageData!.base64EncodedString()
+                parameter["group_photo"]!.append(imageSting)
+            }
+            
             Alamofire.request(batchURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
                 .responseJSON{
                     response in
-            if response.result.isSuccess{
-                print(response.result.value!)
-                self.rekognize  = JSON(response.result.value!)
-                action.isEnabled = true
-                
-            } else{
-                print("Error \(String(describing: response.result.error))")
+                    if response.result.isSuccess{
+                        print(response.result.value!)
+                        self.rekognize  = JSON(response.result.value!)
+                        action.isEnabled = true
+                        
+                    } else{
+                        print("Error \(String(describing: response.result.error))")
+                    }
+                    
             }
-            
-        }
         }
         else{
             let image = imgArray[0].jpegData(compressionQuality: 1)
             let imageSting = image!.base64EncodedString()
             let parameter = ["base_64":imageSting]
-            //print(parameter)
             let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
             
             Alamofire.request(singleURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
@@ -184,15 +179,15 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
             
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

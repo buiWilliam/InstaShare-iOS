@@ -27,7 +27,7 @@ class ContactTableViewController: UITableViewController {
         super.viewDidLoad()
         print("access token: \(access)")
         if storage.dictionary(forKey: username)?.isEmpty == false{
-        id = storage.dictionary(forKey: username) as! [String:String]
+            id = storage.dictionary(forKey: username) as! [String:String]
         }
         fetchContact()
         uploadContact()
@@ -151,20 +151,20 @@ class ContactTableViewController: UITableViewController {
             let parameters = ["name":info.name!,"phone_number":phoneNumber,"base_64":imageString!]
             
             if id[info.identifier]==nil{
-            Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
-                response in
-                if response.result.isSuccess{
-                    let contact = JSON(response.result.value!)
-                    if contact["id"].stringValue != ""{
-                    let idPair = [info.identifier:contact["id"].stringValue]
-                    self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
-                    self.storage.set(self.id, forKey: self.username)
+                Alamofire.request(baseURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+                    response in
+                    if response.result.isSuccess{
+                        let contact = JSON(response.result.value!)
+                        if contact["id"].stringValue != ""{
+                            let idPair = [info.identifier:contact["id"].stringValue]
+                            self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                            self.storage.set(self.id, forKey: self.username)
+                        }
+                        self.checkIfRequestFinished()
+                        print(contact)
+                    } else{
+                        print("Error \(String(describing: response.result.error))")
                     }
-                    self.checkIfRequestFinished()
-                    print(contact)
-                } else{
-                    print("Error \(String(describing: response.result.error))")
-                }
                 }
             }
             else{
@@ -172,7 +172,7 @@ class ContactTableViewController: UITableViewController {
                 let putUrl = "\(baseURL)\(id[info.identifier]!)/"
                 print(putUrl)
                 Alamofire.request(putUrl, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
-                        response in
+                    response in
                     if response.result.isSuccess {
                         let contact = JSON(response.result.value!)
                         self.checkIfRequestFinished()

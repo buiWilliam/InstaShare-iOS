@@ -122,13 +122,13 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
             phoneNumber = alertPhoneNumber
         }
         present(alert, animated: true, completion: nil)
-            if firstName.text == "" || phoneNumber.text?.count != 10{
-                alert.actions.first!.isEnabled = false
-            }
-            else{
-                alert.actions.first!.isEnabled = true
-            }
+        if firstName.text == "" || phoneNumber.text?.count != 10{
+            alert.actions.first!.isEnabled = false
         }
+        else{
+            alert.actions.first!.isEnabled = true
+        }
+    }
     
     @objc private func firstNameFilled(_ field: UITextField) {
         firstNameisNotBlank = field.text! != ""
@@ -161,27 +161,27 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         print("\(newContactIdentifier)")
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         let name = firstName + " " + lastName
-            print(name)
-            let imageData = self.takenPhoto!.jpegData(compressionQuality: 1.0)
-            let imageString = imageData?.base64EncodedString()
-            print(phoneNumber)
-            let parameters = ["name":name,"phone_number":phoneNumber,"base_64":imageString!]
+        print(name)
+        let imageData = self.takenPhoto!.jpegData(compressionQuality: 1.0)
+        let imageString = imageData?.base64EncodedString()
+        print(phoneNumber)
+        let parameters = ["name":name,"phone_number":phoneNumber,"base_64":imageString!]
         
-                Alamofire.request(uploadContact, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
-                    response in
-                    if response.result.isSuccess{
-                        let contact = JSON(response.result.value!)
-                        if contact["id"].stringValue != ""{
-                            let idPair = [self.newContactIdentifier:contact["id"].stringValue]
-                            self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
-                            self.storage.set(self.id, forKey: self.username)
-                        }
-                        self.action!.isEnabled = true
-                        print(contact)
-                    } else{
-                        print("Error \(String(describing: response.result.error))")
-                    }
+        Alamofire.request(uploadContact, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON{
+            response in
+            if response.result.isSuccess{
+                let contact = JSON(response.result.value!)
+                if contact["id"].stringValue != ""{
+                    let idPair = [self.newContactIdentifier:contact["id"].stringValue]
+                    self.id.merge(idPair, uniquingKeysWith: {(_,new) in new})
+                    self.storage.set(self.id, forKey: self.username)
                 }
+                self.action!.isEnabled = true
+                print(contact)
+            } else{
+                print("Error \(String(describing: response.result.error))")
+            }
+        }
         
     }
     

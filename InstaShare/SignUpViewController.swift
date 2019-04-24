@@ -82,7 +82,7 @@ class SignUpViewController: UIViewController {
                     print(signup)
                     print("value: \(signup["email"].stringValue)")
                     if signup["email"].stringValue == ""
-                        {
+                    {
                         let alert = UIAlertController(title: "Sign Up Failed", message: "Enter a valid email Address.", preferredStyle: .alert)
                         alert.addAction(action)
                         self.present(alert, animated: true, completion: nil)
