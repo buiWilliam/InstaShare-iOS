@@ -10,4 +10,11 @@ target 'InstaShare' do
     pod 'Alamofire'
     pod 'AssetsPickerViewController'
     
+    target 'InstaShareTests' do
+      inherit! :search_paths
+      pod 'SwiftyJSON'
+      pod 'Alamofire'
+      pod 'AssetsPickerViewController'
+    end
+    
 end

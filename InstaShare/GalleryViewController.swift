@@ -50,13 +50,10 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
     }
     
     let singleURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
-    let batchURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/batchuploadMobile/"
-    let testSingle = "http://10.108.94.186:8000/api/singlephotoMobile/"
-    let testBatch = "http://10.108.94.186:8000/api/batchuploadMobile/"
+    let batchURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/batchuploadIOS/"
     var access = ""
     var username = ""
     var rekognize: JSON?
-    let imagePicker = UIImagePickerController()
     let picker = AssetsPickerViewController()
     @IBOutlet weak var current: UILabel!
     @IBOutlet weak var total: UILabel!

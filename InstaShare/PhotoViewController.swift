@@ -12,7 +12,7 @@ import SwiftyJSON
 import MessageUI
 import Contacts
 
-class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelegate {
+class PhotoViewController: UIViewController {
     
     let baseURL = "http://django-env.mzkdgeh5tz.us-east-1.elasticbeanstalk.com:80/api/singlephotoMobile/"
     let test = "http://10.108.94.186:8000/api/singlephotoMobile/"
@@ -28,8 +28,7 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     var action: UIAlertAction?
     let storage = UserDefaults.standard
     var id: [String:String] = [:]
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-    }
+    
     var newContactIdentifier = ""
     
     @IBOutlet weak var rekognizeButton: UIBarButtonItem!
@@ -42,7 +41,9 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
         if let availableImage = takenPhoto{
             imageView.image = availableImage
         }
+        if storage.dictionary(forKey: username)?.isEmpty == false{
         id = storage.dictionary(forKey: username) as! [String:String]
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -56,18 +57,16 @@ class PhotoViewController: UIViewController,MFMessageComposeViewControllerDelega
     func sendImage(image: Data){
         let imageSting = image.base64EncodedString()
         let parameter = ["base_64":imageSting]
-        //print(parameter)
         let header : HTTPHeaders = ["Authorization":"Bearer \(access)"]
         
         Alamofire.request(baseURL, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header).responseJSON{
             response in
             if response.result.isSuccess{
-                print(response.result.value!)
                 self.rekognize  = JSON(response.result.value!)
                 print(self.rekognize!)
                 self.performSegue(withIdentifier: "cameraToPreview", sender: nil)
             } else{
-                print("Error \(String(describing: response.result.error))")
+                print("Error \(response.result.error!)")
             }
             
         }

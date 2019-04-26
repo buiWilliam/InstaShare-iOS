@@ -77,7 +77,6 @@ class LoginViewController: UIViewController {
                     print(login)
                     self.saveToken(json: login)
                     if self.access != "" {
-                        
                         self.performSegue(withIdentifier: "logInToHome", sender: self)
                     }
                     if login["non_field_errors"] != "" {
@@ -89,7 +88,7 @@ class LoginViewController: UIViewController {
                         self.present(alert, animated: true, completion: nil)
                     }
                 } else{
-                    print("Error \(String(describing: response.result.error))")
+                    print("Error \(response.result.error!)")
                 }
             }
         } else{

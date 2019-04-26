@@ -200,7 +200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eyH-ix-vBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1952.1739130434785" y="-138.58695652173915"/>
+            <point key="canvasLocation" x="-1981" y="-134"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="ehw-WE-eD0">
@@ -483,82 +483,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syF-fb-i2V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="787.50000000000011"/>
-        </scene>
-        <!--Gallery Collection View Controller-->
-        <scene sceneID="14s-dW-bXi">
-            <objects>
-                <collectionViewController id="Qcq-md-x4A" customClass="GalleryCollectionViewController" customModule="InstaShare" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="cY3-cd-Yhu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fOA-aK-aja">
-                            <size key="itemSize" width="100" height="100"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="qhe-Ik-cSe" customClass="GalleryCollectionViewCell" customModule="InstaShare" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PSp-aZ-t3S">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                        </imageView>
-                                    </subviews>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="PSp-aZ-t3S" firstAttribute="centerY" secondItem="qhe-Ik-cSe" secondAttribute="centerY" id="ASD-Wn-Sav"/>
-                                    <constraint firstItem="PSp-aZ-t3S" firstAttribute="height" secondItem="qhe-Ik-cSe" secondAttribute="height" id="DEO-EH-1ke"/>
-                                    <constraint firstItem="PSp-aZ-t3S" firstAttribute="width" secondItem="qhe-Ik-cSe" secondAttribute="width" id="Jy7-6L-LiY"/>
-                                    <constraint firstItem="PSp-aZ-t3S" firstAttribute="centerX" secondItem="qhe-Ik-cSe" secondAttribute="centerX" id="Qhd-Y2-oQL"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="imgView" destination="PSp-aZ-t3S" id="ElR-G2-vVK"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="Qcq-md-x4A" id="yJv-HH-mA4"/>
-                            <outlet property="delegate" destination="Qcq-md-x4A" id="Zpu-NA-l78"/>
-                        </connections>
-                    </collectionView>
-                    <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nh2-Cs-310"/>
-                        <barButtonItem title="Rekognize" id="L9W-cD-n8l">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="rekognize:" destination="Qcq-md-x4A" id="iHS-1v-JxG"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ysy-nY-1p3"/>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" id="AMU-yW-gCq">
-                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="eJk-CH-Vbd">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="goBack:" destination="Qcq-md-x4A" id="IK6-XW-DTN"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Add Image" id="OMg-WF-ZPL">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="loadImage:" destination="Qcq-md-x4A" id="NJ2-nc-p1b"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <segue destination="o1A-AF-84g" kind="presentation" identifier="galleryToPreview" id="8UN-gZ-Wp5"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0ur-54-976" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1295.6521739130435" y="1448.6413043478262"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="btB-aI-75g">
