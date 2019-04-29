@@ -10,6 +10,7 @@ import UIKit
 import Contacts
 import Alamofire
 import SwiftyJSON
+import AudioToolbox
 
 class ContactTableViewController: UITableViewController {
     
@@ -194,6 +195,9 @@ class ContactTableViewController: UITableViewController {
         count = count - 1
         if count == 0 {
             action?.isEnabled = true
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            AudioServicesPlayAlertSound(SystemSoundID(1000))
+            //UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         }
     }
 }

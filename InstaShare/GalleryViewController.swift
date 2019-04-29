@@ -12,6 +12,7 @@ import SwiftyJSON
 import MessageUI
 import AssetsPickerViewController
 import Photos
+import AudioToolbox
 
 class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegate, UINavigationControllerDelegate {
     
@@ -134,7 +135,10 @@ class GalleryViewController: UIViewController, AssetsPickerViewControllerDelegat
                         print(response.result.value!)
                         self.rekognize  = JSON(response.result.value!)
                         action.isEnabled = true
-                        
+                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                        AudioServicesPlayAlertSound(SystemSoundID(1000))
+
+                        //UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                     } else{
                         print("Error \(String(describing: response.result.error))")
                     }

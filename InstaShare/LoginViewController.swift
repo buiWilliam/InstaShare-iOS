@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import AudioToolbox
 
 class LoginViewController: UIViewController {
     
@@ -34,10 +35,18 @@ class LoginViewController: UIViewController {
         self.password.inputAccessoryView = toolbar
         // Do any additional setup after loading the view.
         observeKeyboardNotification()
+       
     }
     
     @objc func doneButtonAction() {
         self.view.endEditing(true)
+//        let alert = UIAlertController(title: "Sound Test", message: "Pick Sound", preferredStyle: .alert)
+//        for i in 1000...1010{
+//            alert.addAction(UIAlertAction(title: "\(i)", style: .default, handler: { (_) in
+//                AudioServicesPlayAlertSound(SystemSoundID(i))
+//            }))
+//        }
+//        present(alert,animated: true,completion: nil)
     }
     
     func observeKeyboardNotification(){

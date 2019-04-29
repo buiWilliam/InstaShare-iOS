@@ -80,7 +80,7 @@ class SignUpViewController: UIViewController {
                 if response.result.isSuccess{
                     let signup  = JSON(response.result.value!)
                     print(signup)
-                    //print("value: \(signup["email"].stringValue)")
+                    print("value: \(signup["email"].stringValue)")
                     if signup["email"].stringValue == ""
                     {
                         let alert = UIAlertController(title: "Sign Up Failed", message: "Enter a valid email Address.", preferredStyle: .alert)
